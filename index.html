@@ -236,8 +236,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
     <div class="srow"><svg viewBox="0 0 44 44"><use href="#ic-thin"/></svg><input type="range" id="sW" min="0" max="100" value="35" aria-label="Weight"><svg viewBox="0 0 44 44"><use href="#ic-fat"/></svg></div>
     <div class="srow"><svg viewBox="0 0 44 44"><use href="#ic-thin"/></svg><input type="range" id="sM" min="0" max="100" value="75" aria-label="Muscle"><svg viewBox="0 0 44 44"><use href="#ic-flex"/></svg></div>
     <div class="srow"><svg viewBox="0 0 44 44"><use href="#ic-short"/></svg><input type="range" id="sH" min="0" max="100" value="60" aria-label="Height"><svg viewBox="0 0 44 44"><use href="#ic-tall"/></svg></div>
-    <div class="srow"><svg viewBox="0 0 44 44"><use href="#ic-d3"/></svg><input type="range" id="sL" min="0" max="2" step="1" value="1" aria-label="Luck"><svg viewBox="0 0 44 44"><use href="#ic-d5"/></svg></div>
-    <div class="field"><b>LUCK <span id="luckTxt"></span></b></div>
+
     <div class="field"><b>NAME</b><input class="txt" id="cName" maxlength="16" value="Butch"></div>
     <div class="field"><b>SKIN</b><div class="chips" id="cSkin"></div></div>
     <div class="field"><b>HAIR</b><div class="chips" id="cHair"></div><div class="chips" id="cStyle"></div></div>
@@ -251,7 +250,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 <section id="lines" class="screen pat">
   <div class="card">
     <h2 class="imp">Your 3 lines</h2>
-    <p>You say these to every guy. Words he's into help the roll. In the Shaft you can only rewrite line 3. Reach the Street to unlock line 2, the Ruff Haus for line 1. Choose wisely.</p>
+    <p>You say these to every guy. The right word gets you in. Listen for clues. In the Shaft you can only rewrite line 3. Reach the Street to unlock line 2, the Ruff Haus for line 1. Choose wisely.</p>
     <div class="lrow"><span class="n">1</span><input class="txt" id="L1" maxlength="60"></div>
     <div class="lrow"><span class="n">2</span><input class="txt" id="L2" maxlength="60"></div>
     <div class="lrow"><span class="n">3</span><input class="txt" id="L3" maxlength="60"></div>
@@ -278,11 +277,11 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 </div>
 
 <!-- MODALS -->
-<div class="modal" id="mShop"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">The Shop</h2><p>Only items change your stats. Everything you own counts.</p><div class="grid" id="shopGrid"></div></div></div>
+<div class="modal" id="mShop"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">The Shop</h2><p>Some guys only open up if you're wearing the right thing.</p><div class="grid" id="shopGrid"></div></div></div>
 <div class="modal" id="mAlbum"><div class="card" style="width:min(760px,100%)"><button class="x" data-close>✕</button><h2 class="imp">Polaroid album</h2><p id="albumCount"></p><div class="agrid" id="albumGrid"></div></div></div>
 <div class="modal" id="mBig"><div id="bigPol" class="pol" style="width:min(340px,86vw)"></div></div>
 <div class="modal" id="mLines"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">Your 3 lines</h2><p id="lockNote"></p><div class="lrow" id="r1"><span class="n">1</span><input class="txt" id="E1" maxlength="60"></div><div class="lrow" id="r2"><span class="n">2</span><input class="txt" id="E2" maxlength="60"></div><div class="lrow" id="r3"><span class="n">3</span><input class="txt" id="E3" maxlength="60"></div><button class="btn" id="saveLines">Save lines</button></div></div>
-<div class="modal" id="mIns"><div class="card"><button class="x" data-close>✕</button><div class="ins"><img id="insImg" alt=""><div><h2 class="imp" id="insName"></h2><p id="insTitle"></p></div></div><div><b>INTO</b><div class="tagl" id="insLikes"></div></div><div><b>PERKS UP AT</b><div class="tagl" id="insKeys"></div></div><p id="insMore"></p></div></div>
+<div class="modal" id="mIns"><div class="card"><button class="x" data-close>✕</button><div class="ins"><img id="insImg" alt=""><div><h2 class="imp" id="insName"></h2><p id="insTitle"></p></div></div><div><b>CLUE</b><div class="tagl" id="insLikes"></div></div><div><b>STATUS</b><div class="tagl" id="insKeys"></div></div><p id="insMore"></p></div></div>
 <div class="modal" id="mWard"><div class="card ward"><button class="x" data-close>✕</button><h2 class="imp" id="stName"></h2>
 <div class="wgrid"><div class="wprev"><canvas id="wCan" width="520" height="680"></canvas></div><div class="wcol"><b class="wh">TAP TO PUT ON OR TAKE OFF</b><div class="wit" id="wItems"></div><button class="btn dark" id="wShop" style="font-size:18px;padding:8px 16px">Get more at the shop</button><table class="stt" id="stTable"></table><p id="stOwned"></p></div></div></div></div>
 <div class="modal" id="mQuests"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">Quests</h2><p id="qNote"></p><ul class="ql" id="qList"></ul></div></div>
@@ -332,7 +331,7 @@ const ITEMS=[
  {id:'tank',name:'White Tank',price:0,fx:{},slot:'top',free:1,d:'Classic.'},
  {id:'towel',name:'Bath House Towel',price:0,fx:{charm:1,stamina:1},slot:'pants',free:1,d:'House rules. Required in the Tunnel.'},
  {id:'gloves',name:'Work Gloves',price:30,fx:{brawn:1,grit:1},slot:'hands',d:'Rough hands, rougher grip.'},
- {id:'hardhat',name:'Hard Hat',price:40,fx:{grit:2},slot:'hat',d:'Safety first. Attitude second.'},
+ {id:'hardhat',name:'Construction Helmet',price:40,fx:{},slot:'hat',d:'Safety first. Attitude second.'},
  {id:'boots',name:'Engineer Boots',price:45,fx:{stamina:2},slot:'feet',d:'Tall, black, built to last all night.'},
  {id:'shades',name:'Aviator Shades',price:55,fx:{swagger:2},slot:'eyes',d:'Nobody can tell where you\'re looking.'},
  {id:'buckle',name:'Brass Buckle',price:65,fx:{grit:1,brawn:1,swagger:1},slot:'belt',d:'Boots. Brass. Working class.'},
@@ -340,8 +339,7 @@ const ITEMS=[
  {id:'muir',name:'Muir Cap',price:95,fx:{smarts:2,charm:1},slot:'hat',d:'The classic. Instant respect.'},
  {id:'cowboy',name:'Cowboy Hat',price:95,fx:{charm:2,grit:1},slot:'hat',d:'Playboy cowboy energy.'},
  {id:'jacket',name:'Leather Jacket',price:140,fx:{charm:2,swagger:2},slot:'jacket',d:'Smells like a motorcycle.'},
- {id:'dice',name:'Lucky Dice',price:160,fx:{luck:2},slot:'pocket',d:'Hidden rolls lean your way.'}
-];
+ ];
 const IT=id=>ITEMS.find(i=>i.id===id)||{fx:{},slot:'x'};
 const SLOTN={hat:'Hat',eyes:'Eyes',top:'Top',jacket:'Jacket',hands:'Hands',belt:'Belt',pants:'Bottom',feet:'Boots',pocket:'Pocket'};
 const SLOTO=Object.keys(SLOTN);
@@ -350,9 +348,9 @@ const HAIRS=['#1a1310','#4a2f1d','#d8b25a','#a8461f','#9a9a9a'];
 
 const ROOMS=[
  {name:'The Shaft',dc:9,next:'Topside',quests:[
-   {t:'Say your 3 lines to anyone',f:e=>e.type==='enc'},
-   {t:'Collect a Polaroid',f:e=>e.type==='enc'&&e.res==='pol'},
-   {t:'Get Hank to talk',f:e=>e.type==='enc'&&e.res==='talk'&&e.npc==='hank'}]},
+   {t:'Get Hank\'s pictures',f:e=>e.type==='enc'&&e.res==='talk'&&e.npc==='hank'},
+   {t:'Get Dutch\'s pictures',f:e=>e.type==='enc'&&e.res==='talk'&&e.npc==='dutch'},
+   {t:'Get Rusty\'s pictures',f:e=>e.type==='enc'&&e.res==='talk'&&e.npc==='rusty'}]},
  {name:'The Street',dc:11,next:'Ruff Haus',quests:[
    {t:'Buy something at the shop (+)',f:e=>e.type==='buy'},
    {t:'Get Officer Vinnie to talk',f:e=>e.type==='enc'&&e.res==='talk'&&e.npc==='vinnie'},
@@ -451,6 +449,26 @@ const NPCS=[
   talk:[['Boots. Brass. Working class.','Took you long enough.','Welcome to JACKDMEN.']],
   brush:['Not good enough.','Go back to the shaft.','Try that again and mean it.'],pol:['THE SHERIFF','THE SHERIFF — RARE','THE SHERIFF — BOOTS & BRASS']}
 ];
+/* PUZZLES: say a word/phrase in your 3 lines OR wear an item. hintBy = who drops the clue. */
+const PUZ={
+ hank:{words:['work hard','man'],wear:[],hintBy:'rusty',hint:'Want Hank\'s pictures? Tell him you work hard. Call yourself a man. He eats that up.'},
+ dutch:{words:['ripe'],wear:['gloves'],hintBy:'hank',hint:'Dutch won\'t even look at you without work gloves on. Or tell him something smells ripe.'},
+ rusty:{words:['discreet'],wear:['hardhat'],hintBy:'dutch',hint:'Rusty? Show up in a construction helmet. Or tell him you can be discreet.'},
+ vinnie:{words:['law and order','badge'],wear:['muir'],hintBy:'sal',hint:'Vinnie\'s a sucker for a Muir cap. Or talk law and order at him.'},
+ sal:{words:['steel'],wear:['boots'],hintBy:'marco',hint:'Sal respects real engineer boots. Or say the word steel.'},
+ marco:{words:['ride'],wear:['jacket'],hintBy:'vinnie',hint:'Marco only talks to guys in leather jackets. Or ask him for a ride.'},
+ buck:{words:['dance'],wear:['harness'],hintBy:'gus',hint:'Buck goes nuts for a leather harness. Or just ask him to dance.'},
+ gus:{words:['whiskey'],wear:['shades'],hintBy:'isaiah',hint:'Gus likes a man in aviator shades. Or order a whiskey.'},
+ chet:{words:['protein'],wear:['gloves'],hintBy:'buck',hint:'Chet? Wear gloves like you lift. Or say protein, he can\'t resist.'},
+ isaiah:{words:['honest'],wear:['cowboy'],hintBy:'chet',hint:'Isaiah melts for a cowboy hat. Or tell him you\'re honest.'},
+ tony:{words:['relax'],wear:['buckle'],hintBy:'doc',hint:'Tony loves a brass buckle. Or tell him to relax.'},
+ doc:{words:['question'],wear:['shades'],hintBy:'sheriff',hint:'Doc trusts a man in shades. Or ask him a question.'},
+ sheriff:{words:['working class'],wear:['muir'],hintBy:'tony',hint:'The Sheriff? Wear a Muir cap. Or tell him you\'re working class.'}
+};
+const HINTER={};for(const [id,p] of Object.entries(PUZ))HINTER[p.hintBy]=id;
+function lineHas(w){const t=S.lines.join(' ').toLowerCase();w=w.toLowerCase();return w.includes(' ')?t.includes(w):new RegExp('\\b'+w+'\\b').test(t);}
+function solved(id){const p=PUZ[id];if(!p)return false;return p.words.some(lineHas)||p.wear.some(wearing);}
+function heardHint(targetId){if(!S.heard)S.heard={};if(!S.heard[targetId]){S.heard[targetId]=PUZ[targetId].hint;save();}}
 const TOTAL_POLS=NPCS.reduce((a,n)=>a+n.pol.length,0);
 
 /* ================= STATE ================= */
@@ -787,7 +805,7 @@ function loadRoom(i){
  if(i===3&&!S.owned.includes('towel')){S.owned.push('towel');setTimeout(()=>{toast('TOWEL HANDED OVER','Tap your guy and put it on. No towel, no talk.',true);SFX.kaching();},2200);}
  if(!player)buildPlayer();
  player.root.position.set(R.start[0],0,R.start[1]);player.root.rotation.y=Math.PI;
- R.unlocked=!R.door||doneCount()>=2||!!S.cheat; setDoor();
+ R.unlocked=!R.door||doneCount()>=need()||!!S.cheat; setDoor();
  camera.position.set(R.start[0],4,R.start[1]+6);
  $('#roomname').textContent=ROOMS[i].name;$('#lvl').textContent='Level '+(i+1);
  refreshQuest();
@@ -823,14 +841,14 @@ function jack(text){const el=document.createElement('div');el.className='jack';e
 /* ================= HUD / CASH / QUESTS ================= */
 function setCash(v,from){S.cash=v;$('#amt').textContent=v;}
 function earn(n,fromG){if(n<=0)return;setCash(S.cash+n);rs().earned+=n;const p=fromG?screenOf(fromG.root.position.clone().setY(2*fromG.h)):{x:innerWidth/2,y:innerHeight/2};floatTxt('+$'+n,p.x,p.y);SFX.coin();setTimeout(()=>SFX.shower(6),150);qEvent({type:'cash'});}
-const doneCount=()=>qd().filter(Boolean).length;
+const doneCount=()=>qd().filter(Boolean).length;const need=()=>S.room===0?3:2;
 function refreshQuest(){const q=ROOMS[S.room].quests,d=qd();const i=d.findIndex(x=>!x);const el=$('#quest');el.classList.remove('gold');
  if(i<0){$('#qh').textContent=ROOMS[S.room].next?'ALL QUESTS DONE':'FINISHED';$('#qt').textContent=ROOMS[S.room].next?'Head through the back door':'You run this tunnel';}
  else{$('#qh').textContent='NEW QUEST';$('#qt').textContent=q[i].t;}}
 function toast(h,t,gold){const el=$('#quest');$('#qh').textContent=h;$('#qt').textContent=t;el.classList.toggle('gold',!!gold);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');clearTimeout(toast.tm);toast.tm=setTimeout(refreshQuest,3200);}
 function qEvent(e){const q=ROOMS[S.room].quests,d=qd(),r=rs();let changed=false;
  q.forEach((qq,i)=>{if(!d[i]&&qq.f(e,r)){d[i]=true;changed=true;const rw=15*(S.room+1);setTimeout(()=>{toast('QUEST COMPLETE','+$'+rw+' — '+qq.t,true);SFX.quest();setCash(S.cash+rw);},changed?350:0);}});
- if(changed){if(R.door&&!R.unlocked&&doneCount()>=2){R.unlocked=true;setDoor();setTimeout(()=>{toast('DOOR UNLOCKED','Head to the back: '+ROOMS[S.room].next,true);SFX.door();},1800);}save();}}
+ if(changed){if(R.door&&!R.unlocked&&doneCount()>=need()){R.unlocked=true;setDoor();setTimeout(()=>{toast('DOOR UNLOCKED','Head to the back: '+ROOMS[S.room].next,true);SFX.door();},1800);}save();}}
 
 /* ================= ENCOUNTERS ================= */
 let busy=false,target=null;
@@ -847,13 +865,11 @@ async function encounter(n){
  const prevMode=n.g.mode;if(prevMode==='dance')n.g.mode='idle';
  for(let i=0;i<3;i++){say(player,S.lines[i]||'...',1500,'me');for(let k=0;k<3;k++){SFX.type();await sleep(110);}await sleep(950);}
  clearBubOf(player);
- for(let i=0;i<7;i++){SFX.tick();await sleep(60+i*28);}
- const roll=1+Math.floor(Math.random()*20),kw=Math.min(4,kwHits(d));
- const total=roll+mod(d.likes[0])+mod(d.likes[1])+luck()+kw;
- let res=roll===20?'talk':roll===1?'brush':total>=n.dc?'talk':total>=n.dc-6?'pol':'brush';
+ for(let i=0;i<4;i++){SFX.tick();await sleep(90);}
+ const res=solved(d.id)?'talk':'brush',roll=0,kw=0;
  rs();const room=S.room+1;
  if(res==='talk'){
-  if(roll===20){jack('JACKPOT!');SFX.jackpot();}else SFX.quest();
+  SFX.quest();
   const tk=S.talks[d.id]||0,set=d.talk[Math.min(tk,d.talk.length-1)];S.talks[d.id]=tk+1;rs().talks++;
   for(const l of set){say(n.g,l,2600,'talk');SFX.pop();await sleep(2300);}
   for(let i=0;i<d.pol.length;i++){const k=d.id+'_'+i;if(!S.album[k]){S.album[k]={img:snap(n.g,POSE[i%3]),cap:d.pol[i],name:d.name};rs().pols++;}}
@@ -861,7 +877,8 @@ async function encounter(n){
   n.g.mode='pull';await sleep(500);SFX.shutter();setTimeout(()=>SFX.shutter(),180);setTimeout(()=>SFX.shutter(),360);
   flyPols(n.g,d.pol.map((c,i)=>({img:S.album[d.id+'_'+i].img,cap:c})));
   await sleep(3000);n.g.mode=prevMode==='dance'?'idle':prevMode;
-  earn((20*room+kw*5)*(roll===20?2:1),n.g);
+  if(!S.paid)S.paid={};if(!S.paid[d.id]){S.paid[d.id]=1;earn(25*room,n.g);}
+  const hk=HINTER[d.id];if(hk&&!solved(hk)){await sleep(300);say(n.g,PUZ[hk].hint,4200,'talk');heardHint(hk);SFX.pop();await sleep(3800);}
   await sleep(500);
   if(await kissPrompt(d))await kiss(n);
  } else if(res==='pol'){
@@ -873,8 +890,9 @@ async function encounter(n){
   SFX.shutter();flyPol(n.g,img,d.pol[i]);
   await sleep(2700);n.g.mode=prevMode==='dance'?'idle':prevMode;
   earn((isNew?10:4)*room,n.g);
- } else {say(n.g,pick(d.brush),2200,'cold');SFX.brush();await sleep(1500);}
- n.cd=T+(res==='talk'?16:10);
+ } else {say(n.g,pick(d.brush),2200,'cold');SFX.brush();await sleep(1500);
+  const hk=HINTER[d.id];if(hk&&Math.random()<.5&&!solved(hk)){say(n.g,PUZ[hk].hint,4000);heardHint(hk);await sleep(2600);}}
+ n.cd=T+(res==='talk'?8:3);
  n.g.mode=prevMode;n.turnTo=null;busy=false;
  qEvent({type:'enc',npc:d.id,res});save();
  if(d.final&&res==='talk')setTimeout(ending,600);
@@ -906,18 +924,19 @@ function flyPol(g,img,cap){const el=document.createElement('div');el.className='
  setTimeout(()=>el.remove(),3200);}
 function inspect(n){const d=n.def;SFX.click();
  $('#insImg').src=snap(n.g,0);$('#insName').textContent=d.name;$('#insTitle').textContent=d.title;
- $('#insLikes').innerHTML=d.likes.map(k=>`<i>${esc(SN[k])} (you: ${stat(k)})</i>`).join('');
- $('#insKeys').innerHTML=d.keys.slice(0,3).map(k=>`<i>"${esc(k)}"</i>`).join('');
- const got=d.pol.filter((_,i)=>S.album[d.id+'_'+i]).length,hits=kwHits(d);
- $('#insMore').textContent=`Polaroids: ${got}/${d.pol.length}. Your lines hit ${hits} of his words. `+(S.kissed[d.id]?'You kissed him. ':'')+(n.cd>T?'He needs a minute before you try again.':'He\'s ready if you are.');
+ const h=(S.heard||{})[d.id],ok=solved(d.id);
+ $('#insLikes').innerHTML=h?`<i>${esc(h)}</i>`:'<i>No clues yet. Listen to the other guys.</i>';
+ $('#insKeys').innerHTML=ok?'<i>✔ You\'ve got what he wants</i>':'<i>Not yet</i>';
+ const got=d.pol.filter((_,i)=>S.album[d.id+'_'+i]).length;
+ $('#insMore').textContent=`Polaroids: ${got}/${d.pol.length}. `+(S.kissed[d.id]?'You kissed him.':'');
  openM('mIns');qEvent({type:'inspect',npc:d.id});}
 
 /* ================= MODALS ================= */
 function openM(id){$('#'+id).classList.add('on');}
 function closeM(el){el.classList.remove('on');}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m||e.target.hasAttribute('data-close'))closeM(m);}));
-function renderShop(){$('#shopGrid').innerHTML=ITEMS.filter(it=>!it.free).map(it=>{const own=S.owned.includes(it.id);const fx=Object.entries(it.fx).map(([k,v])=>'+'+v+' '+(k==='luck'?'Luck':SN[k])).join(', ');
- return `<div class="item ${own?'own':''}"><h3 class="imp">${esc(it.name)}</h3><div class="fx">${esc(fx)}</div><div class="d">${esc(it.d)}</div>${own?'<b>IN YOUR CLOSET</b>':`<button class="btn" data-buy="${it.id}" ${S.cash<it.price?'disabled style="opacity:.5"':''}>$${it.price}</button>`}</div>`;}).join('');}
+function renderShop(){$('#shopGrid').innerHTML=ITEMS.filter(it=>!it.free).map(it=>{const own=S.owned.includes(it.id);
+ return `<div class="item ${own?'own':''}"><h3 class="imp">${esc(it.name)}</h3><div class="d">${esc(it.d)}</div>${own?'<b>IN YOUR CLOSET</b>':`<button class="btn" data-buy="${it.id}" ${S.cash<it.price?'disabled style="opacity:.5"':''}>$${it.price}</button>`}</div>`;}).join('');}
 $('#shopGrid').addEventListener('click',e=>{const b=e.target.closest('[data-buy]'),w=e.target.closest('[data-wear]');
  if(b){const it=ITEMS.find(i=>i.id===b.dataset.buy);if(S.cash<it.price)return;setCash(S.cash-it.price);S.owned.push(it.id);wear(it.id,true);SFX.kaching();renderShop();qEvent({type:'buy'});save();toast('NEW GEAR',it.name+' — wearing it now. Tap your guy to change.',true);}
  });
@@ -933,14 +952,14 @@ function wear(id,forceOn){const it=IT(id);if(wearing(id)&&!forceOn){if(it.slot==
  buildPlayer();updPortrait();if(prevG)prevBuild();if($('#mWard').classList.contains('on'))renderStats();save();qEvent({type:'wear',id});}
 function renderStats(){$('#stName').textContent=S.name;
  const own=S.owned.slice().sort((a,b)=>SLOTO.indexOf(IT(a).slot)-SLOTO.indexOf(IT(b).slot));
- $('#wItems').innerHTML=own.map(id=>{const it=IT(id),fx=Object.entries(it.fx).map(([k,v])=>'+'+v+' '+(k==='luck'?'Luck':SN[k])).join(', ');return `<button class="wi ${wearing(id)?'on':''}" data-w="${id}"><i>${esc(SLOTN[it.slot]||'')}</i>${esc(it.name)}<small>${esc(fx||'looks only')}</small></button>`;}).join('');$('#stTable').innerHTML=STATS.map(([k,n])=>{const m=mod(k);return `<tr><td>${n}</td><td class="r">${stat(k)} (${m>=0?'+':''}${m})</td></tr>`;}).join('')+`<tr><td>Luck</td><td class="r">+${luck()}</td></tr>`;
- $('#stOwned').textContent='Only what you\'re wearing counts toward your stats. One item per spot: picking a new hat swaps the old one.';}
+ $('#wItems').innerHTML=own.map(id=>{const it=IT(id),fx=Object.entries(it.fx).map(([k,v])=>'+'+v+' '+(k==='luck'?'Luck':SN[k])).join(', ');return `<button class="wi ${wearing(id)?'on':''}" data-w="${id}"><i>${esc(SLOTN[it.slot]||'')}</i>${esc(it.name)}</button>`;}).join('');$('#stTable').innerHTML='';
+ $('#stOwned').textContent='Some guys only open up to a man wearing the right thing. One item per spot: a new hat swaps the old one.';}
 $('#wItems').addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(!b)return;SFX.click();wear(b.dataset.w);});
 $('#wShop').onclick=()=>{closeM($('#mWard'));renderShop();openM('mShop');};
 let prevR=null,prevS=null,prevC=null,prevG=null;
 function prevBuild(){if(!prevR){prevR=new THREE.WebGLRenderer({canvas:$('#wCan'),antialias:true,alpha:true});prevR.outputEncoding=THREE.sRGBEncoding;prevR.setSize(520,680,false);prevS=new THREE.Scene();prevS.add(new THREE.HemisphereLight(0xdfe6ff,0x2a2a40,.85));const dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(2,4,5);prevS.add(dl);const rl=new THREE.DirectionalLight(0x7fa0ff,.5);rl.position.set(-3,2,-3);prevS.add(rl);prevC=new THREE.PerspectiveCamera(30,520/680,.1,30);prevC.position.set(0,1.15,5.4);prevC.lookAt(0,1.02,0);}
  const ry=prevG?prevG.root.rotation.y:0;if(prevG)prevS.remove(prevG.root);prevG=makeGuy(playerLook());prevG.root.rotation.y=ry;prevS.add(prevG.root);}
-function renderQuests(){const q=ROOMS[S.room].quests,d=qd();$('#qList').innerHTML=q.map((x,i)=>`<li class="${d[i]?'done':''}">${d[i]?'✔':'☐'} ${esc(x.t)}</li>`).join('');$('#qNote').textContent=R&&R.door?(R.unlocked?'Door is open. Head to the back.':'Finish 2 of 3 to unlock the door to '+ROOMS[S.room].next+'.'):'Get The Sheriff to talk to finish the game.';}
+function renderQuests(){const q=ROOMS[S.room].quests,d=qd();$('#qList').innerHTML=q.map((x,i)=>`<li class="${d[i]?'done':''}">${d[i]?'✔':'☐'} ${esc(x.t)}</li>`).join('');$('#qNote').textContent=R&&R.door?(R.unlocked?'Door is open. Head to the back.':'Finish '+(need()===3?'all 3':'2 of 3')+' to unlock the door to '+ROOMS[S.room].next+'.'):'Get The Sheriff to talk to finish the game.';}
 $('#bShop').onclick=()=>{renderShop();openM('mShop');SFX.click();};
 $('#bAlbum').onclick=()=>{renderAlbum();openM('mAlbum');SFX.click();};
 $('#bLines').onclick=()=>{renderLinesEd();openM('mLines');SFX.click();};
@@ -1007,7 +1026,8 @@ function step(dt){
  if(target!==step.lt){if(tagEl){tagEl.remove();tagEl=null;}step.lt=target;}
  if(target&&!bubs.get(target.g)){if(!tagEl){tagEl=document.createElement('div');tagEl.className='bub tag';$('#bubs').appendChild(tagEl);}tagEl.textContent=target.def.name+(target.cd>T?' · wait':'');const b={el:tagEl,g:target.g};posBub(b);}else if(tagEl){tagEl.remove();tagEl=null;}
  ambT-=dt;if(ambT<=0){ambT=rnd(.9,2);const pool=npcs.filter(n=>!bubs.get(n.g)&&n.turnTo==null).map(n=>({g:n.g,lines:(n.def.shadow&&!wearing('towel'))?['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']:n.def.amb})).concat(sils.map(s=>({g:s.g,lines:wearing('towel')?SIL_LINES:['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']})));
-  const near=pool.filter(o=>o.g.root.position.distanceTo(p)<16);if(near.length){const o=pick(near);if(!bubs.get(o.g)){const far=o.g.root.position.distanceTo(p)>7;say(o.g,pick(o.lines),rnd(2400,3400),far?'far':'');if(!far)SFX.pop();}}}
+  const near=pool.filter(o=>o.g.root.position.distanceTo(p)<16);if(near.length){const o=pick(near);if(!bubs.get(o.g)){const far=o.g.root.position.distanceTo(p)>7;const nn=npcs.find(x=>x.g===o.g),hk=nn&&HINTER[nn.def.id];
+  if(hk&&!far&&!solved(hk)&&Math.random()<.35){say(o.g,PUZ[hk].hint,4200);heardHint(hk);SFX.pop();}else{say(o.g,pick(o.lines),rnd(2400,3400),far?'far':'');if(!far)SFX.pop();}}}}
  if(R.stage&&!qd()[0]&&S.room===2){if(Math.hypot(p.x-R.stage.x,p.z-R.stage.z)<4.4){watchT+=dt;if(Math.floor(watchT)!==Math.floor(watchT-dt)&&watchT<5)toast('WATCHING…',Math.ceil(5-watchT)+'s');if(watchT>=5){watchT=-999;qEvent({type:'watch'});}}}
  if(R.door&&R.unlocked&&!dooring&&Math.hypot(p.x-R.door.x,p.z-R.door.z)<1.2)goRoom(S.room+1);
  if(R.glb&&disco)disco.rotation.y+=dt*.8;
@@ -1053,10 +1073,10 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 function chips(el,opts,get,set){el.innerHTML=opts.map(([v,l,c])=>c?`<button class="sw ${get()===v?'on':''}" data-v="${v}" style="background:${c}" aria-label="${l}"></button>`:`<button class="chip ${get()===v?'on':''}" data-v="${v}">${l}</button>`).join('');
  el.onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;set(b.dataset.v);chips(el,opts,get,set);creatorPlayer();SFX.click();};}
 function setupCreator(){const b=S.body;
- $('#sW').value=b.weight*100;$('#sM').value=b.muscle*100;$('#sH').value=b.height*100;$('#sL').value=S.luckBase;$('#cName').value=S.name;
- const lt=()=>{$('#luckTxt').textContent=['· low luck, $60 to start','· some luck, $30 to start','· high luck, broke ($0)'][S.luckBase];};lt();
+ $('#sW').value=b.weight*100;$('#sM').value=b.muscle*100;$('#sH').value=b.height*100;$('#cName').value=S.name;
+ 
  $('#sW').oninput=e=>{b.weight=e.target.value/100;creatorPlayer();};$('#sM').oninput=e=>{b.muscle=e.target.value/100;creatorPlayer();};$('#sH').oninput=e=>{b.height=e.target.value/100;creatorPlayer();};
- $('#sL').oninput=e=>{S.luckBase=+e.target.value;lt();SFX.tick();};
+ 
  chips($('#cSkin'),SKINS.map((c,i)=>[c,'Skin '+(i+1),c]),()=>b.skin,v=>b.skin=v);
  chips($('#cHair'),HAIRS.map((c,i)=>[c,'Hair '+(i+1),c]),()=>b.hair,v=>b.hair=v);
  chips($('#cStyle'),[['short','Short'],['flat','Flat top'],['dreads','Dreads'],['bald','Bald']],()=>b.style,v=>b.style=v);
@@ -1068,7 +1088,7 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
 $('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.lines[0]=S.lines[0].replace(/Butch/,S.name);['L1','L2','L3'].forEach((id,i)=>$('#'+id).value=S.lines[i]);show('lines');SFX.click();};
-$('#start').onclick=()=>{['L1','L2','L3'].forEach((id,i)=>S.lines[i]=$('#'+id).value.trim()||S.lines[i]);S.cash=[60,30,0][S.luckBase];S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);startGame();};
+$('#start').onclick=()=>{['L1','L2','L3'].forEach((id,i)=>S.lines[i]=$('#'+id).value.trim()||S.lines[i]);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);startGame();};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
