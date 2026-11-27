@@ -129,6 +129,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 .sbtn.off{opacity:.5}
 #roomname{position:absolute;left:14px;top:72px;font-size:20px;color:var(--yel);text-shadow:2px 2px 0 #111;pointer-events:none}
 #tip{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:12px;color:#b8c5f0;text-shadow:1px 1px 0 #000;pointer-events:none;white-space:nowrap}
+@media (max-width:700px){#dPort{width:84px;height:84px}#dlg .dtxt{font-size:17px}#dOpts button{font-size:15px;padding:6px 10px}}
 @media (max-width:700px){
  .rbtn{width:58px;height:58px;right:14px}#bHand{bottom:16px}#bEye{bottom:84px}#bQuest{bottom:152px}#bBeer{bottom:220px}#bAct{right:84px;bottom:16px}
  #pcard{width:86px;bottom:10px;left:10px}#pcard .ph{width:86px;height:98px}
@@ -201,6 +202,15 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 .ql li.done{color:#7fe08f;text-decoration:line-through}
 #dlg{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:34;width:min(620px,calc(100vw - 24px));background:#fff;color:#111;border:4px solid #111;border-radius:22px;box-shadow:6px 7px 0 rgba(0,0,0,.45);padding:12px 18px 10px;display:none;cursor:pointer}
 #dlg.on{display:block}
+#dPort{position:absolute;left:-4px;bottom:calc(100% + 10px);width:118px;height:118px;border:4px solid #111;border-radius:12px;background:#9bbc0f;box-shadow:5px 6px 0 rgba(0,0,0,.45);overflow:hidden}
+#dPort canvas{width:100%!important;height:100%!important;image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+#dPort::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);pointer-events:none}
+#dPort.me{border-color:#5b8fc9}
+#dOpts{display:none;flex-direction:column;gap:8px;margin-top:4px}
+#dlg.choose #dOpts{display:flex}#dlg.choose .btns{display:none}
+#dOpts button{text-align:left;font:400 18px/1.25 "JackA",Archivo,sans-serif;background:#f2f4fa;border:3px solid #111;border-radius:12px;padding:8px 12px;cursor:pointer;box-shadow:2px 3px 0 #111;color:#111}
+#dOpts button b{font:400 16px Impact,Anton,sans-serif;font-style:italic;background:var(--yel);border:2px solid #111;border-radius:6px;padding:0 6px;margin-right:8px}
+#dOpts button:hover{background:var(--yel)}
 #dlg .who{position:absolute;top:-17px;left:18px;background:var(--yel);border:3px solid #111;border-radius:10px;padding:1px 12px;font:400 17px Impact,Anton,sans-serif;font-style:italic;text-transform:uppercase}
 #dlg.me .who{background:#5b8fc9;color:#fff}
 #dlg .dtxt{font:400 20px/1.3 "JackA",Archivo,sans-serif;min-height:52px;padding-top:6px}
@@ -279,27 +289,15 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
     <div class="field"><b>HAIR</b><div class="chips" id="cHair"></div><div class="chips" id="cStyle"></div></div>
     <div class="field"><b>FACE</b><div class="chips" id="cFace"></div></div>
     <div class="field"><b>STARTING LOOK</b><div class="chips" id="cOut"></div></div>
-    <button class="btn" id="toLines">Next: your 3 lines</button>
+    <button class="btn" id="toLines">Hit the shaft</button>
   </div>
 </section>
 
-<!-- LINES (first time) -->
-<section id="lines" class="screen pat">
-  <div class="card">
-    <h2 class="imp">Your 3 lines</h2>
-    <p>You say these to every guy. The right word gets you in. Listen for clues. In the Shaft you can only rewrite line 3. Reach the Street to unlock line 2, the Ruff Haus for line 1. Choose wisely.</p>
-    <div class="lrow"><span class="n">1</span><input class="txt" id="L1" maxlength="60"></div>
-    <div class="lrow"><span class="n">2</span><input class="txt" id="L2" maxlength="60"></div>
-    <div class="lrow"><span class="n">3</span><input class="txt" id="L3" maxlength="60"></div>
-    <button class="btn" id="start">Hit the shaft</button>
-  </div>
-</section>
 
 <!-- HUD -->
 <div id="hud">
   <div id="tl">
     <button class="sbtn" id="bAlbum" aria-label="Polaroid album"><svg viewBox="0 0 28 28"><rect x="4" y="3" width="20" height="23" rx="2" fill="#fbfaf4"/><rect x="6.5" y="5.5" width="15" height="13" fill="#3a56d4"/><circle cx="14" cy="11" r="3" fill="#f5c518"/></svg></button>
-    <button class="sbtn" id="bLines" aria-label="Your 3 lines">3</button>
     <button class="sbtn" id="bOpt" aria-label="Options"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="4.5" fill="none" stroke="#fff" stroke-width="2.6"/><path d="M14 3v4M14 21v4M3 14h4M21 14h4M6.2 6.2l2.8 2.8M19 19l2.8 2.8M6.2 21.8L9 19M19 9l2.8-2.8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg></button>
     <button class="sbtn" id="bMusic" aria-label="Music"><svg viewBox="0 0 28 28"><path d="M10 21V6l13-3v15" stroke="#fff" stroke-width="2.6" fill="none"/><circle cx="7" cy="21" r="3.5" fill="#fff"/><circle cx="20" cy="18" r="3.5" fill="#fff"/></svg></button>
   </div>
@@ -313,14 +311,13 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
   <button class="rbtn dim" id="bEye" aria-label="Look at him"><svg viewBox="0 0 36 36"><path d="M3 18c4-7 9-10 15-10s11 3 15 10c-4 7-9 10-15 10S7 25 3 18z" fill="#fff"/><circle cx="18" cy="18" r="6" fill="#1f2a66"/></svg></button>
   <button class="rbtn dim" id="bHand" aria-label="Talk"><svg viewBox="0 0 36 36"><path d="M18 5C9.7 5 4 10.3 4 16.5c0 3.6 2 6.8 5.2 8.9L7.5 31l6.6-3.6c1.2.3 2.5.4 3.9.4 8.3 0 14-5.3 14-11.3S26.3 5 18 5z" fill="#fff"/><circle cx="12" cy="16.5" r="2" fill="#1f2a66"/><circle cx="18" cy="16.5" r="2" fill="#1f2a66"/><circle cx="24" cy="16.5" r="2" fill="#1f2a66"/></svg></button>
   <button class="rbtn" id="bQuest" aria-label="Quests"><span style="font:900 38px/1 Impact,Anton,sans-serif;font-style:italic;color:#f5c518;text-shadow:2px 2px 0 #111">!</span></button>
-  <div id="tip">WASD / arrows move · K kiss · E talk · F look · Q quests · I album · L lines</div>
+  <div id="tip">WASD / arrows move · K kiss · E talk · F look · Q quests · I album</div>
 </div>
 
 <!-- MODALS -->
 <div class="modal" id="mShop"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">The Shop</h2><p>Some guys only open up if you're wearing the right thing.</p><div class="grid" id="shopGrid"></div></div></div>
 <div class="modal" id="mAlbum"><div class="card" style="width:min(760px,100%)"><button class="x" data-close>✕</button><h2 class="imp">Polaroid album</h2><p id="albumCount"></p><div class="agrid" id="albumGrid"></div></div></div>
 <div class="modal" id="mBig"><div id="bigPol" class="pol" style="width:min(340px,86vw)"></div></div>
-<div class="modal" id="mLines"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">Your 3 lines</h2><p id="lockNote"></p><div class="lrow" id="r1"><span class="n">1</span><input class="txt" id="E1" maxlength="60"></div><div class="lrow" id="r2"><span class="n">2</span><input class="txt" id="E2" maxlength="60"></div><div class="lrow" id="r3"><span class="n">3</span><input class="txt" id="E3" maxlength="60"></div><button class="btn" id="saveLines">Save lines</button></div></div>
 <div class="modal" id="mIns"><div class="card"><button class="x" data-close>✕</button><div class="ins"><img id="insImg" alt=""><div><h2 class="imp" id="insName"></h2><p id="insTitle"></p></div></div><div><b>CLUE</b><div class="tagl" id="insLikes"></div></div><div><b>STATUS</b><div class="tagl" id="insKeys"></div></div><p id="insMore"></p></div></div>
 <div class="modal" id="mWard"><div class="card ward"><button class="x" data-close>✕</button><h2 class="imp" id="stName"></h2>
 <div class="wgrid"><div class="wprev"><canvas id="wCan" width="520" height="680"></canvas></div><div class="wcol"><b class="wh">TAP TO PUT ON OR TAKE OFF</b><div class="wit" id="wItems"></div><button class="btn dark" id="wShop" style="font-size:18px;padding:8px 16px">Get more at the shop</button><table class="stt" id="stTable"></table><p id="stOwned"></p></div></div></div></div>
@@ -338,7 +335,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"><button class="btn dark" id="plNew" style="font-size:18px;padding:8px 16px">New rack</button></div></div></div>
 <div class="modal" id="mEnd"><div class="card" style="text-align:center"><img class="logo" data-logo alt="" style="margin:auto;width:180px"><h2 class="imp" style="font-size:54px">You're Jack'd.</h2><p style="font-size:18px;color:#fff">Boots. Brass. Working class.</p><p id="endStats"></p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn grn" id="keep">Keep playing</button><button class="btn dark" id="newGame">New game</button></div></div></div>
 
-<div id="dlg"><div class="who" id="dWho"></div><div class="dtxt" id="dTxt"></div><div class="btns"><button id="dSkip">Skip »</button><button id="dNext">Next ▸</button></div></div>
+<div id="dlg"><div id="dPort"></div><div class="who" id="dWho"></div><div class="dtxt" id="dTxt"></div><div class="btns"><button id="dSkip">Skip »</button><button id="dNext">Next ▸</button></div><div id="dOpts"></div></div>
 <div id="kissBox"><p id="kissQ"></p><div class="kb"><button class="btn" id="kYes">Kiss him</button><button class="btn dark" id="kNo">Walk away</button></div></div>
 <div id="fade"><div class="lv imp" id="fadeLv"></div><div class="nm imp" id="fadeNm"></div></div>
 <div id="err"><div><img class="logo" data-logo alt=""><h2 class="imp">The 3D engine didn't load.</h2><p>Check your connection and reload the page.</p></div></div>
@@ -496,25 +493,24 @@ const NPCS=[
   talk:[['Boots. Brass. Working class.','Took you long enough.','Welcome to JACKDMEN.']],
   brush:['Not good enough.','Go back to the shaft.','Try that again and mean it.'],pol:['THE SHERIFF','THE SHERIFF — RARE','THE SHERIFF — BOOTS & BRASS']}
 ];
-/* PUZZLES: say a word/phrase in your 3 lines OR wear an item. hintBy = who drops the clue. */
+/* PUZZLES: pick the right line (has the key word) OR wear an item. hintBy = who drops the clue. */
 const PUZ={
- hank:{words:['work hard','man'],wear:[],hintBy:'rusty',hint:'Want Hank\'s pictures? Tell him you work hard. Call yourself a man. He eats that up.'},
- dutch:{words:['ripe'],wear:['gloves'],hintBy:'hank',hint:'Dutch won\'t even look at you without work gloves on. Or tell him something smells ripe.'},
- rusty:{words:['discreet'],wear:['hardhat'],hintBy:'dutch',hint:'Rusty? Show up in a construction helmet. Or tell him you can be discreet.'},
- vinnie:{words:['law and order','badge'],wear:['muir'],hintBy:'sal',hint:'Vinnie\'s a sucker for a Muir cap. Or talk law and order at him.'},
- sal:{words:['steel'],wear:['boots'],hintBy:'marco',hint:'Sal respects real engineer boots. Or say the word steel.'},
- marco:{words:['ride'],wear:['jacket'],hintBy:'vinnie',hint:'Marco only talks to guys in leather jackets. Or ask him for a ride.'},
- buck:{words:['dance'],wear:['harness'],hintBy:'gus',hint:'Buck\'s always thirsty. Grab a beer from me and take it to him. Or wear a harness, or ask him to dance.'},
- gus:{words:['whiskey'],wear:['shades'],hintBy:'isaiah',hint:'Gus likes a man in aviator shades. Or order a whiskey.'},
- chet:{words:['protein'],wear:['gloves'],hintBy:'buck',hint:'Chet? Wear gloves like you lift. Or say protein, he can\'t resist.'},
- isaiah:{words:['honest'],wear:['cowboy'],hintBy:'chet',hint:'Isaiah melts for a cowboy hat. Or tell him you\'re honest.'},
- tony:{words:['relax'],wear:['buckle'],hintBy:'doc',hint:'Tony loves a brass buckle. Or tell him to relax.'},
- doc:{words:['question'],wear:['shades'],hintBy:'sheriff',hint:'Doc trusts a man in shades. Or ask him a question.'},
- sheriff:{words:['working class'],wear:['muir'],hintBy:'tony',hint:'The Sheriff? Wear a Muir cap. Or tell him you\'re working class.'}
+ hank:{q:"What do you want, city boy?",right:"I work hard, man. Same as you.",wrong:["Ew. It's so dirty down here.", "I'm just here for the pictures."],words:['work hard','man'],wear:[],hintBy:'rusty',hint:'Want Hank\'s pictures? Tell him you work hard. Call yourself a man. He eats that up.'},
+ dutch:{q:"You got business in my shaft?",right:"Something down here smells ripe. I like it.",wrong:["Can I take a break already?", "You don't look like the boss."],words:['ripe'],wear:['gloves'],hintBy:'hank',hint:'Dutch won\'t even look at you without work gloves on. Or tell him something smells ripe.'},
+ rusty:{q:"You here to watch the show?",right:"I can be discreet. Nobody has to know.",wrong:["I'm telling everybody about you.", "Your arms are kinda small."],words:['discreet'],wear:['hardhat'],hintBy:'dutch',hint:'Rusty? Show up in a construction helmet. Or tell him you can be discreet.'},
+ vinnie:{q:"Something I can help you with, citizen?",right:"I'm all about law and order, officer.",wrong:["Cops make me nervous.", "I was never here. You didn't see me."],words:['law and order','badge'],wear:['muir'],hintBy:'sal',hint:'Vinnie\'s a sucker for a Muir cap. Or talk law and order at him.'},
+ sal:{q:"You lost on my site?",right:"Nothing beats a man who works with steel.",wrong:["Can you lift that for me?", "Hard hats are ugly."],words:['steel'],wear:['boots'],hintBy:'marco',hint:'Sal respects real engineer boots. Or say the word steel.'},
+ marco:{q:"Don't touch the bike.",right:"Wouldn't dream of it. Give me a ride?",wrong:["Nice scooter.", "Motorcycles are dangerous."],words:['ride'],wear:['jacket'],hintBy:'vinnie',hint:'Marco only talks to guys in leather jackets. Or ask him for a ride.'},
+ buck:{q:"Tips go in the boot, honey.",right:"Forget tips. Dance with me.",wrong:["Can you turn the music down?", "I don't dance."],words:['dance'],wear:['harness'],hintBy:'gus',hint:'Buck\'s always thirsty. Grab a beer from me and take it to him. Or wear a harness, or ask him to dance.'},
+ gus:{q:"What're you drinking?",right:"Whiskey. Neat.",wrong:["Just water, thanks.", "Got any white wine spritzers?"],words:['whiskey'],wear:['shades'],hintBy:'isaiah',hint:'Gus likes a man in aviator shades. Or order a whiskey.'},
+ chet:{q:"Bro. You lift?",right:"Only after my protein shake, bro.",wrong:["I hate the gym.", "Cardio's all I need."],words:['protein'],wear:['gloves'],hintBy:'buck',hint:'Chet? Wear gloves like you lift. Or say protein, he can\'t resist.'},
+ isaiah:{q:"...",right:"I'll be honest with you. I'm nervous.",wrong:["Smile! You look bored.", "I'm the most interesting guy in here."],words:['honest'],wear:['cowboy'],hintBy:'chet',hint:'Isaiah melts for a cowboy hat. Or tell him you\'re honest.'},
+ tony:{q:"First time in the steam, sweetie?",right:"Just here to relax.",wrong:["It's so humid in here.", "Is it always this crowded?"],words:['relax'],wear:['buckle'],hintBy:'doc',hint:'Tony loves a brass buckle. Or tell him to relax.'},
+ doc:{q:"Hm. Another one.",right:"Can I ask you a question, Doc?",wrong:["I already know everything.", "You look old."],words:['question'],wear:['shades'],hintBy:'sheriff',hint:'Doc trusts a man in shades. Or ask him a question.'},
+ sheriff:{q:"Say your piece.",right:"I'm working class. Boots and brass.",wrong:["Nice hat. Is it real?", "I'm just a tourist."],words:['working class'],wear:['muir'],hintBy:'tony',hint:'The Sheriff? Wear a Muir cap. Or tell him you\'re working class.'}
 };
 const HINTER={};for(const [id,p] of Object.entries(PUZ))HINTER[p.hintBy]=id;
-function lineHas(w){const t=S.lines.join(' ').toLowerCase();w=w.toLowerCase();return w.includes(' ')?t.includes(w):new RegExp('\\b'+w+'\\b').test(t);}
-function solved(id){const p=PUZ[id];if(!p)return false;return p.words.some(lineHas)||p.wear.some(wearing);}
+function solved(id){const p=PUZ[id];if(!p)return false;return !!(S.paid&&S.paid[id])||p.wear.some(wearing);}
 function heardHint(targetId){if(!S.heard)S.heard={};if(!S.heard[targetId]){S.heard[targetId]=PUZ[targetId].hint;save();}}
 const TOTAL_POLS=NPCS.reduce((a,n)=>a+n.pol.length,0);
 
@@ -625,6 +621,14 @@ function sprite(text,color='#f5c518',scale=2){const t=signTex(text,color,'rgba(1
 const logoTex=new THREE.TextureLoader().load(window.LOGO); logoTex.encoding=THREE.sRGBEncoding;
 
 /* ================= GUYS ================= */
+const HEART_GEO=(()=>{const h=new THREE.Shape();h.moveTo(0,-.5);h.bezierCurveTo(-.15,-.3,-.55,-.15,-.5,.15);h.bezierCurveTo(-.45,.45,-.1,.5,0,.25);h.bezierCurveTo(.1,.5,.45,.45,.5,.15);h.bezierCurveTo(.55,-.15,.15,-.3,0,-.5);return new THREE.ShapeGeometry(h);})();
+const HEART_M=new THREE.MeshBasicMaterial({color:'#ff2d55',side:THREE.DoubleSide});
+function setExpr(g,e){if(!g||!g.P||!g.P.mouth)return;g.expr=e;const P=g.P;
+ P.mouth.smile.visible=(e==='happy'||e==='love');P.mouth.frown.visible=(e==='sad'||e==='stand');P.mouth.flat.visible=!(P.mouth.smile.visible||P.mouth.frown.visible);
+ P.eyes.forEach(x=>x.visible=e!=='love');P.hearts.forEach(x=>x.visible=e==='love');
+ P.brows.forEach(b=>{const s=b.userData.s;b.rotation.z=e==='stand'?s*.38:e==='sad'?-s*.32:0;b.position.y=e==='happy'||e==='love'?.064:e==='stand'?.052:.058;});
+ portDirty=true;}
+let portDirty=false;
 function makeGuy(o){
  o=Object.assign({skin:SKINS[1],hair:HAIRS[0],weight:.4,muscle:.7,height:.5,stache:false,beard:false,top:'none',topColor:'#eee',pants:'#3d5c8c',hat:null,hatColor:'#f2c21a',glasses:false,harness:false,jacket:false,gloves:false,buckle:false,bigboots:false,style:'short',towel:false,briefs:false,sil:false,eyeGlow:null},o);
  const sil=o.sil, S_=c=>sil?M('#06060a'):M(c);
@@ -667,7 +671,13 @@ function makeGuy(o){
  head.add(box(.03,.05,.04,skin,0,-.01,.13));
  for(const s of [-1,1]){const e=sph(.025,skin,s*.122,0,0);e.scale.set(.6,1,1);head.add(e);}
  const eyeM=o.eyeGlow?new THREE.MeshBasicMaterial({color:o.eyeGlow}):M('#0d0d0d');
- for(const s of [-1,1]){head.add(mesh(new THREE.SphereGeometry(.017,8,6),eyeM,s*.045,.025,.118,false));head.add(box(.055,.014,.02,hairM,s*.047,.058,.118));}
+ P.eyes=[];P.brows=[];P.hearts=[];
+ for(const s of [-1,1]){const ey=mesh(new THREE.SphereGeometry(.017,8,6),eyeM,s*.045,.025,.118,false);head.add(ey);P.eyes.push(ey);const br=box(.055,.014,.02,hairM,s*.047,.058,.118);br.userData.s=s;head.add(br);P.brows.push(br);
+  const ht=new THREE.Mesh(HEART_GEO,HEART_M);ht.position.set(s*.045,.026,.128);ht.scale.setScalar(.034);ht.visible=false;head.add(ht);P.hearts.push(ht);}
+ {const mg=new THREE.Group();mg.position.set(0,0,0);head.add(mg);P.mouthG=mg;const mm=sil?M('#06060a'):M('#3a1616',{roughness:.6});
+  const sm=mesh(new THREE.TorusGeometry(.027,.006,4,12,Math.PI),mm,0,-.072,.124,false);sm.rotation.z=Math.PI;mg.add(sm);
+  const fr=mesh(new THREE.TorusGeometry(.024,.006,4,12,Math.PI),mm,0,-.094,.124,false);mg.add(fr);
+  const fl=box(.048,.009,.01,mm,0,-.08,.126);mg.add(fl);P.mouth={smile:sm,frown:fr,flat:fl};}
  if(o.style!=='bald'){const hc=mesh(new THREE.SphereGeometry(.127,16,10,0,Math.PI*2,0,Math.PI*.44),hairM,0,.012,-.005);hc.scale.set(1,1.12,1.08);head.add(hc);
   if(o.style==='flat')head.add(box(.22,.07,.22,hairM,0,.13,-.005));
   if(o.style==='dreads')for(let i=0;i<14;i++){const a=Math.PI*.35+i/13*Math.PI*1.3;const d=cyl(.018,.016,.32,hairM,Math.sin(a)*.12,-.08,Math.cos(a)*.12,6);d.rotation.x=Math.cos(a)*.15;d.rotation.z=-Math.sin(a)*.15;head.add(d);}}
@@ -703,7 +713,7 @@ function animGuy(g,dt,t,instant){
  P.armL.rotation.z=g.armOut+C.lz;P.armR.rotation.z=-g.armOut+C.rz;
  g.body.position.y=bob; g.body.rotation.y+=(ry-g.body.rotation.y)*(instant?1:k);
  P.head.rotation.x+=((g.mode==='drink'?-.55:0)-P.head.rotation.x)*k;
- if(g.talkT>0&&!instant){g.talkT-=dt;const o=Math.abs(Math.sin(t*19+g.seed));if(P.jaw)P.jaw.position.y=-.08-o*.028;P.head.rotation.x+=Math.sin(t*8.5+g.seed)*.045;P.head.rotation.z=Math.sin(t*5.3+g.seed)*.04;}else if(P.jaw){P.jaw.position.y+=(-.08-P.jaw.position.y)*.3;}
+ if(g.talkT>0&&!instant){g.talkT-=dt;const o=Math.abs(Math.sin(t*19+g.seed));if(P.jaw)P.jaw.position.y=-.08-o*.028;if(P.mouthG)P.mouthG.position.y=-o*.026;P.head.rotation.x+=Math.sin(t*8.5+g.seed)*.045;P.head.rotation.z=Math.sin(t*5.3+g.seed)*.04;}else if(P.jaw){P.jaw.position.y+=(-.08-P.jaw.position.y)*.3;if(P.mouthG)P.mouthG.position.y*=.7;}
  const ln=g.lean||0;g.body.rotation.x+=(ln-g.body.rotation.x)*k;P.head.rotation.z+=((ln?.22:0)-P.head.rotation.z)*k;
 }
 
@@ -883,6 +893,15 @@ function snap(g,variant){
   for(let pass=0;pass<4;pass++){const hit=rc.intersectObjects(scene.children,true).find(x=>x.object.visible&&!x.object.isSprite&&!isIn(x.object,g.root));if(!hit)break;let o=hit.object;o.visible=false;hid.push(o);}}catch(e){}
  snapR.render(scene,snapCam);const url=snapR.domElement.toDataURL('image/jpeg',.82);hid.forEach(o=>o.visible=true);
  g.mode=was;g.body.rotation.y=ry;ringP.visible=vis[0];ringT.visible=vis[1];if(player)player.root.visible=true;return url;}
+const portR=new THREE.WebGLRenderer({antialias:false});portR.setPixelRatio(1);portR.setSize(64,64,false);portR.outputEncoding=THREE.sRGBEncoding;
+const portCam=new THREE.PerspectiveCamera(30,1,.05,30);let portG=null,portLast=0;
+function renderPortrait(){const g=portG;if(!g)return;portLast=performance.now();portDirty=false;
+ try{const hp=new THREE.Vector3(),q=new THREE.Quaternion();g.P.head.getWorldPosition(hp);g.P.head.getWorldQuaternion(q);const dir=new THREE.Vector3(0,0,1).applyQuaternion(q);dir.y=0;dir.normalize();
+  portCam.position.copy(hp).addScaledVector(dir,.62*g.h).add(new THREE.Vector3(0,.03,0));portCam.lookAt(hp.x,hp.y-.03*g.h,hp.z);
+  const pv=player&&player.root.visible,rv=[ringP.visible,ringT.visible];if(player&&g!==player)player.root.visible=false;ringP.visible=ringT.visible=false;
+  const others=npcs.filter(n=>n.g!==g&&n.g.root.visible);others.forEach(n=>n.g.root.visible=false);
+  portR.render(scene,portCam);others.forEach(n=>n.g.root.visible=true);if(player)player.root.visible=pv;ringP.visible=rv[0];ringT.visible=rv[1];}catch(e){}}
+function showPortrait(g){portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
 function isIn(o,root){while(o){if(o===root)return true;o=o.parent;}return false;}
 function updPortrait(){if(!player)return;$('#portrait').src=snap(player,0);}
 
@@ -918,50 +937,64 @@ function polIdx(d){for(let i=0;i<d.pol.length;i++)if(!S.album[d.id+'_'+i])return
 function faceTo(g,x,z){return Math.atan2(x-g.root.position.x,z-g.root.position.z);}
 async function encounter(n){
  if(busy)return;const d=n.def;
- if(S.room===3&&!wearing('towel')){say(n.g,pick(['No towel, no service.','Jeans? In here? Towel on, cowboy.','House rules. Towel.','Come back in a towel.']),2600,'cold imp');SFX.grumble(n.g,5);n.g.talkT=.6;toast('TOWEL REQUIRED','Tap your guy and put on the towel');return;}
- if(n.cd>T){say(n.g,pick(['Give me a minute.','I said wait.','Not now, pal.','Come back later.']),1800,'cold imp');SFX.grumble(n.g,3);n.g.talkT=.4;return;}
+ if(S.room===3&&!wearing('towel')){setExpr(n.g,'stand');say(n.g,pick(['No towel, no service.','Jeans? In here? Towel on, cowboy.','House rules. Towel.','Come back in a towel.']),2600,'cold imp');SFX.grumble(n.g,5);n.g.talkT=.6;toast('TOWEL REQUIRED','Tap your guy and put on the towel');return;}
+ if(n.cold>T||n.cd>T){setExpr(n.g,'stand');say(n.g,pick(['I said no.','Not now, pal.','Beat it.','Come back later.']),1800,'cold imp');SFX.grumble(n.g,3);n.g.talkT=.4;return;}
  busy=true;encSkip=false;ringT.visible=false;
  n.turnTo=faceTo(n.g,player.root.position.x,player.root.position.z);player.root.rotation.y=faceTo(player,n.g.root.position.x,n.g.root.position.z);
- const prevMode=n.g.mode;if(prevMode==='dance')n.g.mode='idle';
- const NP=t=>({g:n.g,name:d.name,text:t}),ME=t=>({g:player,name:S.name,text:t||'...',me:true});
- await dialog(S.lines.map(ME));
- let res=solved(d.id)?'talk':'brush';
- if(d.id==='buck'&&S.beer){
-  encSkip=false;await dialog([NP(pick(['Is that for me?','Oh, you shouldn\'t have.','Now we\'re talking.']))]);
+ const prevMode=n.base||(n.base=n.g.mode);if(prevMode==='dance')n.g.mode='idle';
+ const NP=(t,e)=>({g:n.g,name:d.name,text:t,expr:e}),ME=t=>({g:player,name:S.name,text:t,me:true,expr:'happy'});
+ const p=PUZ[d.id]||{wear:[],wrong:['...','...'],right:'...',q:'...'};
+ const item=p.wear.find(wearing);let res;setExpr(n.g,'neutral');
+ if(S.paid&&S.paid[d.id]){await dialog([NP(pick(['Look who\'s back.','Hey, you.','There he is.']),'happy')]);res='talk';}
+ else if(d.id==='buck'&&S.beer){
+  await dialog([NP(pick(['Is that for me?','Oh, you shouldn\'t have.','Now we\'re talking.']),'happy')]);
   S.beer=false;setPlayerBeer();const m=makeMug();n.g.P.armR.userData.hand.add(m);n.g.mode='idle';await sleep(400);
   n.g.mode='drink';SFX.glug();await sleep(1700);n.g.P.armR.userData.hand.remove(m);n.g.mode='idle';
-  await dialog([NP('Ahhh. Alright, cowboy. You earned these.')]);res='talk';save();}
+  encSkip=false;await dialog([NP('Ahhh. Alright, cowboy. You earned these.','happy')]);res='talk';save();}
+ else if(item){await dialog([NP(pick(['Well, look at that','Hey now','Okay, cowboy'])+'. Nice '+IT(item).name.toLowerCase()+'.','happy')]);res='talk';}
+ else{
+  await dialog([NP(p.q,'neutral')]);encSkip=false;
+  const opts=[p.right,...p.wrong],order=[0,1,2].sort(()=>Math.random()-.5);
+  const k=await choose(n.g,S.name,order.map(i=>opts[i]));
+  await dialog([ME(opts[order[k]])]);encSkip=false;res=order[k]===0?'talk':'brush';}
  rs();const room=S.room+1;
  if(res==='talk'){
-  SFX.quest();
+  SFX.quest();setExpr(n.g,'happy');
   const tk=S.talks[d.id]||0,set=d.talk[Math.min(tk,d.talk.length-1)];S.talks[d.id]=tk+1;rs().talks++;
-  await dialog(set.map(NP));
+  encSkip=false;await dialog(set.map(t=>NP(t,'happy')));
   for(let i=0;i<d.pol.length;i++){const k=d.id+'_'+i;if(!S.album[k]){S.album[k]={img:snap(n.g,POSE[i%3]),cap:d.pol[i],name:d.name};rs().pols++;}}
-  encSkip=false;await dialog([NP(pick(['Here. Take all of \'em.','You earned these.','Keep these somewhere safe.']))]);
+  encSkip=false;await dialog([NP(pick(['Here. Take all of \'em.','You earned these.','Keep these somewhere safe.']),'happy')]);
   n.g.mode='pull';await sleep(500);SFX.shutter();setTimeout(()=>SFX.shutter(),180);setTimeout(()=>SFX.shutter(),360);
   flyPols(n.g,d.pol.map((c,i)=>({img:S.album[d.id+'_'+i].img,cap:c})));
   await sleep(3000);n.g.mode=prevMode==='dance'?'idle':prevMode;
   if(!S.paid)S.paid={};if(!S.paid[d.id]){S.paid[d.id]=1;earn(25*room,n.g);}
-  const hk=HINTER[d.id];if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint)]);}
-  await sleep(300);
-  if(await kissPrompt(d))await kiss(n);
- } else {encSkip=false;SFX.brush();await dialog([NP(pick(d.brush))]);
-  const hk=HINTER[d.id];if(hk&&Math.random()<.5&&!solved(hk)){heardHint(hk);await dialog([NP(PUZ[hk].hint)]);}}
- n.cd=T+(res==='talk'?6:2);
- n.g.mode=prevMode;n.turnTo=null;busy=false;
+  const hk=HINTER[d.id];if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint,'happy')]);}
+  setExpr(n.g,'love');SFX.quest();const yes=(await choose(n.g,d.name,['♥ Kiss him','Walk away'],d.name+' is into you. ♥',false))===0;$('#dlg').classList.remove('on');
+  if(yes)await kiss(n);else{encSkip=false;await dialog([NP(pick(['Oh. Okay then.','Your loss, cowboy.','Fine. Whatever.','Huh. Alright.']),'sad')]);}
+  n.cd=T+4;n.g.mode=prevMode;n.turnTo=null;setTimeout(()=>setExpr(n.g,'neutral'),2500);
+ } else {
+  SFX.brush();setExpr(n.g,'stand');n.g.mode='cross';
+  encSkip=false;await dialog([NP(pick(d.brush),'stand')]);
+  n.cold=T+7;n.turnTo=null;}
+ busy=false;
  qEvent({type:'enc',npc:d.id,res});save();
  if(d.final&&res==='talk')setTimeout(ending,600);
 }
 let dlgState=null,encSkip=false;
-function dlgLine(g,name,text,me){return new Promise(res=>{const el=$('#dlg');el.classList.add('on');el.classList.toggle('me',!!me);$('#dWho').textContent=name;const tx=$('#dTxt');tx.textContent='';
+function dlgLine(g,name,text,me,ex){return new Promise(res=>{const el=$('#dlg');el.classList.remove('choose');el.classList.add('on');if(ex)setExpr(g,ex);showPortrait(g);el.classList.toggle('me',!!me);$('#dWho').textContent=name;const tx=$('#dTxt');tx.textContent='';
  say(g,text,600000,(me?'me':'talk')+' imp');const syl=Math.max(2,Math.round(text.length/4.5));SFX.grumble(g,syl);g.talkT=syl*.11+.25;
  let i=0;const iv=setInterval(()=>{i+=2;tx.textContent=text.slice(0,i);if(i>=text.length)clearInterval(iv);},24);
  const fin=r=>{clearInterval(iv);clearBubOf(g);g.talkT=0;impUntil=0;res(r);};
  dlgState={next:()=>{if(i<text.length){i=text.length;tx.textContent=text;return;}fin('next');},skip:()=>fin('skip')};});}
-async function dialog(lines){if(encSkip)return;for(const l of lines){const r=await dlgLine(l.g,l.name,l.text,l.me);if(r==='skip'){encSkip=true;break;}}$('#dlg').classList.remove('on');dlgState=null;}
+async function dialog(lines){if(encSkip){const l=lines[lines.length-1];if(l&&l.expr)setExpr(l.g,l.expr);return;}for(const l of lines){const r=await dlgLine(l.g,l.name,l.text,l.me,l.expr);if(r==='skip'){encSkip=true;break;}}$('#dlg').classList.remove('on');dlgState=null;}
+function choose(g,name,opts,prompt,mine=true){return new Promise(res=>{const el=$('#dlg');el.classList.add('on','choose');el.classList.toggle('me',mine);$('#dWho').textContent=name;$('#dTxt').textContent=prompt||'Pick your line:';showPortrait(g);
+ const box_=$('#dOpts');box_.innerHTML=opts.map((o,i)=>`<button data-i="${i}"><b>${i+1}</b>${esc(o)}</button>`).join('');
+ const fin=i=>{SFX.click();el.classList.remove('choose','me');box_.innerHTML='';dlgState=null;res(i);};
+ box_.querySelectorAll('button').forEach(b=>b.onclick=e=>{e.stopPropagation();fin(+b.dataset.i);});
+ dlgState={choice:fin,n:opts.length,next:()=>{},skip:()=>{}};});}
 $('#dNext').onclick=e=>{e.stopPropagation();if(dlgState){SFX.click();dlgState.next();}};
 $('#dSkip').onclick=e=>{e.stopPropagation();if(dlgState){SFX.click();dlgState.skip();}};
-$('#dlg').onclick=()=>{if(dlgState)dlgState.next();};
+$('#dlg').onclick=()=>{if(dlgState&&!dlgState.choice)dlgState.next();};
 const POSE=[1,2,0];
 const KISS_LINES=['Mm. Not bad, cowboy.','Well, alright then.','Don\'t tell anybody.','You can come back anytime.','That\'s what I\'m talking about.','Easy. I bruise.'];
 let kissing=false;
@@ -973,7 +1006,7 @@ async function kiss(n){const d=n.def,p=player.root.position,q=n.g.root.position;
  n.turnTo=faceTo(n.g,p.x,p.z);const pm=n.g.mode;player.mode='kiss';n.g.mode='kiss';player.lean=.19;n.g.lean=.19;
  await sleep(450);SFX.kiss();hearts(p.clone().lerp(q,.5).setY(1.9*player.h));await sleep(1500);
  player.lean=0;n.g.lean=0;await sleep(300);player.mode='idle';n.g.mode=pm;kissing=false;
- const first=!S.kissed[d.id];S.kissed[d.id]=true;encSkip=false;await dialog([{g:n.g,name:d.name,text:d.final?'That\'s the JACKDMEN welcome.':pick(KISS_LINES)}]);
+ const first=!S.kissed[d.id];S.kissed[d.id]=true;encSkip=false;await dialog([{g:n.g,name:d.name,expr:'love',text:d.final?'That\'s the JACKDMEN welcome.':pick(KISS_LINES)}]);
  if(first)earn(15*(S.room+1),n.g);qEvent({type:'kiss',npc:d.id});save();await sleep(900);}
 function hearts(v){const s=screenOf(v);for(let i=0;i<9;i++){const el=document.createElement('div');el.className='heart';el.textContent='♥';el.style.left=(s.x+rnd(-40,40))+'px';el.style.top=(s.y+rnd(-20,20))+'px';el.style.animationDelay=(i*.08)+'s';el.style.fontSize=rnd(22,42)+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),2200);}}
 function flyPols(g,list){const sm=innerWidth<700?.62:1,gap=(innerWidth<700?150:240);list.forEach((it,j)=>{const off=(j-(list.length-1)/2);const el=document.createElement('div');el.className='pol fly';el.innerHTML=`<img src="${it.img}" alt=""><span>${esc(it.cap)}</span>`;document.body.appendChild(el);
@@ -1009,9 +1042,6 @@ function renderAlbum(){const cells=[];for(const d of NPCS)d.pol.forEach((c,i)=>{
  $('#albumGrid').innerHTML=cells.join('');$('#albumCount').textContent=Object.keys(S.album).length+' of '+TOTAL_POLS+' collected. Get a guy to talk and he hands over all 3. Guys who won\'t talk only show you one. ♥ = kissed.';}
 $('#albumGrid').addEventListener('click',e=>{const p=e.target.closest('[data-k]');if(!p)return;const a=S.album[p.dataset.k];$('#bigPol').innerHTML=`<img src="${a.img}" alt=""><span>${esc(a.cap)}</span>`;openM('mBig');});
 $('#mBig').addEventListener('click',()=>closeM($('#mBig')));
-function renderLinesEd(){['E1','E2','E3'].forEach((id,i)=>{const el=$('#'+id);el.value=S.lines[i];el.disabled=!editable(i);$('#r'+(i+1)).classList.toggle('lock',!editable(i));});
- $('#lockNote').textContent=S.room===0?'In the Shaft you can only rewrite line 3.':S.room===1?'On the Street you can rewrite lines 2 and 3.':'All three lines are yours to rewrite.';}
-$('#saveLines').onclick=()=>{['E1','E2','E3'].forEach((id,i)=>{if(editable(i))S.lines[i]=$('#'+id).value.trim()||S.lines[i];});save();closeM($('#mLines'));SFX.click();};
 function wear(id,forceOn){const it=IT(id);if(wearing(id)&&!forceOn){if(it.slot==='pants'){toast('HOLD UP','Swap your bottoms, don\'t lose them');SFX.brush();return;}S.worn=S.worn.filter(x=>x!==id);}
  else if(!wearing(id)){S.worn=S.worn.filter(x=>IT(x).slot!==it.slot);S.worn.push(id);}
  buildPlayer();updPortrait();if(prevG)prevBuild();if($('#mWard').classList.contains('on'))renderStats();save();qEvent({type:'wear',id});}
@@ -1029,7 +1059,6 @@ function renderQuests(){let h='';for(let r=0;r<=Math.max(S.room,S.maxRoom||0);r+
  $('#qList').innerHTML=h;$('#qNote').textContent=R&&R.door?(R.unlocked?'Door is open. Head to the back.':'Finish '+(need()===3?'all 3':'2 of 3')+' to unlock the door to '+ROOMS[S.room].next+'.'):'Get The Sheriff to talk to finish the game.';}
 $('#bShop').onclick=()=>{renderShop();openM('mShop');SFX.click();};
 $('#bAlbum').onclick=()=>{renderAlbum();openM('mAlbum');SFX.click();};
-$('#bLines').onclick=()=>{renderLinesEd();openM('mLines');SFX.click();};
 $('#pcard').onclick=()=>{prevBuild();renderStats();openM('mWard');SFX.click();};
 $('#quest').onclick=e=>{if(e.target.id==='qx'){$('#quest').classList.add('hid');SFX.click();return;}renderQuests();openM('mQuests');};
 $('#bQuest').onclick=()=>{renderQuests();openM('mQuests');SFX.click();};
@@ -1127,10 +1156,11 @@ $('#bAct').onclick=()=>{const a=$('#bAct').dataset.a;if(a==='pool')openPool();el
 /* ================= INPUT ================= */
 const keys=new Set();const joy={x:0,y:0,id:null};
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;keys.add(e.key.toLowerCase());
+ if(dlgState&&dlgState.choice){const k=+e.key;if(k>=1&&k<=dlgState.n)dlgState.choice(k-1);return;}
  if(dlgState){if(e.key==='Enter'||e.key===' '||e.key==='e'||e.key==='E'){e.preventDefault();dlgState.next();}if(e.key==='Escape')dlgState.skip();return;}
  if(kissPrompt.done){if(e.key==='k'||e.key==='K'||e.key==='Enter')kissPrompt.done(true);if(e.key==='Escape')kissPrompt.done(false);return;}if(mode!=='game'||document.querySelector('.modal.on'))return;
  if(e.key==='e'||e.key==='E'){if(target&&!busy)encounter(target);}if(e.key==='f'||e.key==='F'){if(target&&!busy)inspect(target);}
- if(e.key==='i'||e.key==='I')$('#bAlbum').click();if(e.key==='q'||e.key==='Q')$('#bQuest').click();if(e.key==='l'||e.key==='L')$('#bLines').click();});
+ if(e.key==='i'||e.key==='I')$('#bAlbum').click();if(e.key==='q'||e.key==='Q')$('#bQuest').click();});
 addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 const jEl=$('#joy'),kEl=$('#knob');
 function jmove(e){const r=jEl.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,max=r.width/2-20;let dx=e.clientX-cx,dy=e.clientY-cy;const l=Math.hypot(dx,dy);if(l>max){dx*=max/l;dy*=max/l;}joy.x=dx/max;joy.y=dy/max;kEl.style.transform=`translate(${dx}px,${dy}px)`;}
@@ -1155,9 +1185,11 @@ function step(dt){
  target=null;let best=1e9;
  for(const n of npcs){const g=n.g,dx=p.x-g.root.position.x,dz=p.z-g.root.position.z,d=Math.hypot(dx,dz);
   if(d<(n.def.range||2.7)&&d<best){best=d;target=n;}
-  const want=n.turnTo!=null?n.turnTo:(d<5?faceTo(g,p.x,p.z):n.ry);g.root.rotation.y=angLerp(g.root.rotation.y,want,1-Math.exp(-dt*(n.turnTo!=null?8:2)));
+  if(n.cold&&n.cold<=T){n.cold=0;g.mode=n.base||'idle';setExpr(g,'neutral');}
+  const want=n.turnTo!=null?n.turnTo:n.cold>T?faceTo(g,p.x,p.z)+Math.PI:(d<5?faceTo(g,p.x,p.z):n.ry);g.root.rotation.y=angLerp(g.root.rotation.y,want,1-Math.exp(-dt*(n.turnTo!=null?8:2)));
   animGuy(g,dt,T);}
  for(const s of sils)animGuy(s.g,dt,T);
+ if(portG&&$('#dlg').classList.contains('on')&&(portDirty||portG.talkT>0)&&performance.now()-portLast>90)renderPortrait();
  if(busy)target=null;
  ringT.visible=!!target;if(target){ringT.position.set(target.g.root.position.x,target.g.root.position.y+.04,target.g.root.position.z);ringT.material.opacity=.6+.3*Math.sin(T*6);}
  $('#bEye').classList.toggle('dim',!target);$('#bBeer').hidden=!(target&&target.def.id==='gus'&&!S.beer&&!busy);
@@ -1180,7 +1212,7 @@ async function goRoom(i){dooring=true;SFX.door();clearBubs();if(tagEl){tagEl.rem
  $('#fadeLv').textContent='Level '+(i+1);$('#fadeNm').textContent=ROOMS[i].name;$('#fade').classList.add('on');await sleep(400);
  if(i===2&&!BAR&&barP){$('#fadeLv').textContent='Loading the Ruff Haus…';const iv=setInterval(()=>{$('#fadeLv').textContent='Loading the Ruff Haus… '+Math.round(barPct*100)+'%';},300);await Promise.race([barP,sleep(90000)]);clearInterval(iv);}
  S.room=i;S.maxRoom=Math.max(S.maxRoom||0,i);loadRoom(i);save();updPortrait();await sleep(1500);$('#fade').classList.remove('on');dooring=false;
- setTimeout(()=>toast('NEW LINES UNLOCKED',i===1?'You can now rewrite line 2 (tap 3)':'All 3 lines are open now (tap 3)',true),3400);}
+}
 
 /* creator scene */
 let cg=null;
@@ -1226,8 +1258,8 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  await Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),sleep(1500)]);await sleep(2400);clearInterval(iv);
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
-$('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.lines[0]=S.lines[0].replace(/Butch/,S.name);['L1','L2','L3'].forEach((id,i)=>$('#'+id).value=S.lines[i]);show('lines');SFX.click();};
-$('#start').onclick=()=>{['L1','L2','L3'].forEach((id,i)=>S.lines[i]=$('#'+id).value.trim()||S.lines[i]);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);startGame();};
+$('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);SFX.click();startGame();};
+window.__jd={enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
