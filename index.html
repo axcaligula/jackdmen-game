@@ -510,7 +510,7 @@ const PUZ={
  sheriff:{q:"Say your piece.",right:"I'm working class. Boots and brass.",wrong:["Nice hat. Is it real?", "I'm just a tourist."],words:['working class'],wear:['muir'],hintBy:'tony',hint:'The Sheriff? Wear a Muir cap. Or tell him you\'re working class.'}
 };
 const HINTER={};for(const [id,p] of Object.entries(PUZ))HINTER[p.hintBy]=id;
-function solved(id){const p=PUZ[id];if(!p)return false;return !!(S.paid&&S.paid[id])||p.wear.some(wearing);}
+function solved(id){const p=PUZ[id];if(!p)return false;const d=NPCS.find(x=>x.id===id);return (d&&d.pol.every((_,i)=>S.album[id+'_'+i]))||p.wear.some(wearing);}
 function heardHint(targetId){if(!S.heard)S.heard={};if(!S.heard[targetId]){S.heard[targetId]=PUZ[targetId].hint;save();}}
 const TOTAL_POLS=NPCS.reduce((a,n)=>a+n.pol.length,0);
 
@@ -901,7 +901,7 @@ function renderPortrait(){const g=portG;if(!g)return;portLast=performance.now();
   const pv=player&&player.root.visible,rv=[ringP.visible,ringT.visible];if(player&&g!==player)player.root.visible=false;ringP.visible=ringT.visible=false;
   const others=npcs.filter(n=>n.g!==g&&n.g.root.visible);others.forEach(n=>n.g.root.visible=false);
   portR.render(scene,portCam);others.forEach(n=>n.g.root.visible=true);if(player)player.root.visible=pv;ringP.visible=rv[0];ringT.visible=rv[1];}catch(e){}}
-function showPortrait(g){const box_=$('#dPort');if(portR.domElement.parentNode!==box_)box_.appendChild(portR.domElement);portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
+function showPortrait(g){const box_=$('#dPort');try{if(portR.domElement.parentNode!==box_)box_.appendChild(portR.domElement);}catch(e){}portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
 function isIn(o,root){while(o){if(o===root)return true;o=o.parent;}return false;}
 function updPortrait(){if(!player)return;$('#portrait').src=snap(player,0);}
 
@@ -944,8 +944,9 @@ async function encounter(n){
  const prevMode=n.base||(n.base=n.g.mode);if(prevMode==='dance')n.g.mode='idle';
  const NP=(t,e)=>({g:n.g,name:d.name,text:t,expr:e}),ME=t=>({g:player,name:S.name,text:t,me:true,expr:'happy'});
  const p=PUZ[d.id]||{wear:[],wrong:['...','...'],right:'...',q:'...'};
- const item=p.wear.find(wearing);let res;setExpr(n.g,'neutral');
- if(S.paid&&S.paid[d.id]){await dialog([NP(pick(['Look who\'s back.','Hey, you.','There he is.']),'happy')]);res='talk';}
+ const item=p.wear.find(wearing);let res,full=true;setExpr(n.g,'neutral');
+ const hasAll=d.pol.every((_,i)=>S.album[d.id+'_'+i]);
+ if(hasAll){await dialog([NP(pick(['Look who\'s back.','Hey, you.','There he is.']),'happy')]);res='talk';}
  else if(d.id==='buck'&&S.beer){
   await dialog([NP(pick(['Is that for me?','Oh, you shouldn\'t have.','Now we\'re talking.']),'happy')]);
   S.beer=false;setPlayerBeer();const m=makeMug();n.g.P.armR.userData.hand.add(m);n.g.mode='idle';await sleep(400);
@@ -956,16 +957,18 @@ async function encounter(n){
   await dialog([NP(p.q,'neutral')]);encSkip=false;
   const opts=[p.right,...p.wrong],order=[0,1,2].sort(()=>Math.random()-.5);
   const k=await choose(n.g,S.name,order.map(i=>opts[i]));
-  await dialog([ME(opts[order[k]])]);encSkip=false;res=order[k]===0?'talk':'brush';}
+  await dialog([ME(opts[order[k]])]);encSkip=false;res=order[k]===0?'talk':'brush';full=!p.wear.length;}
  rs();const room=S.room+1;
  if(res==='talk'){
   SFX.quest();setExpr(n.g,'happy');
   const tk=S.talks[d.id]||0,set=d.talk[Math.min(tk,d.talk.length-1)];S.talks[d.id]=tk+1;rs().talks++;
   encSkip=false;await dialog(set.map(t=>NP(t,'happy')));
-  for(let i=0;i<d.pol.length;i++){const k=d.id+'_'+i;if(!S.album[k]){S.album[k]={img:snap(n.g,POSE[i%3]),cap:d.pol[i],name:d.name};rs().pols++;}}
-  encSkip=false;await dialog([NP(pick(['Here. Take all of \'em.','You earned these.','Keep these somewhere safe.']),'happy')]);
+  let give=[];
+  if(full){for(let i=0;i<d.pol.length;i++){const k=d.id+'_'+i;if(!S.album[k]){S.album[k]={img:snap(n.g,POSE[i%3]),cap:d.pol[i],name:d.name};rs().pols++;}give.push(i);}}
+  else{const i=d.pol.findIndex((_,i)=>!S.album[d.id+'_'+i]);const k=d.id+'_'+i;S.album[k]={img:snap(n.g,POSE[i%3]),cap:d.pol[i],name:d.name};rs().pols++;give=[i];}
+  encSkip=false;await dialog([NP(full?pick(['Here. Take all of \'em.','You earned these.','Keep these somewhere safe.']):pick(['Here. One. That\'s all you get.','One picture. Want the rest? Dress the part.','That\'s one. Show up looking right and you get the rest.']),'happy')]);
   n.g.mode='pull';await sleep(500);SFX.shutter();setTimeout(()=>SFX.shutter(),180);setTimeout(()=>SFX.shutter(),360);
-  flyPols(n.g,d.pol.map((c,i)=>({img:S.album[d.id+'_'+i].img,cap:c})));
+  flyPols(n.g,give.map(i=>({img:S.album[d.id+'_'+i].img,cap:d.pol[i]})));
   await sleep(3000);n.g.mode=prevMode==='dance'?'idle':prevMode;
   if(!S.paid)S.paid={};if(!S.paid[d.id]){S.paid[d.id]=1;earn(25*room,n.g);}
   const hk=HINTER[d.id];if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint,'happy')]);}
@@ -982,7 +985,7 @@ async function encounter(n){
 }
 let dlgState=null,encSkip=false;
 function dlgLine(g,name,text,me,ex){return new Promise(res=>{const el=$('#dlg');el.classList.remove('choose');el.classList.add('on');if(ex)setExpr(g,ex);showPortrait(g);el.classList.toggle('me',!!me);$('#dWho').textContent=name;const tx=$('#dTxt');tx.textContent='';
- say(g,text,600000,(me?'me':'talk')+' imp');const syl=Math.max(2,Math.round(text.length/4.5));SFX.grumble(g,syl);g.talkT=syl*.11+.25;
+ clearBubOf(g);impUntil=performance.now()+600000;const syl=Math.max(2,Math.round(text.length/4.5));SFX.grumble(g,syl);g.talkT=syl*.11+.25;
  let i=0;const iv=setInterval(()=>{i+=2;tx.textContent=text.slice(0,i);if(i>=text.length)clearInterval(iv);},24);
  const fin=r=>{clearInterval(iv);clearBubOf(g);g.talkT=0;impUntil=0;res(r);};
  dlgState={next:()=>{if(i<text.length){i=text.length;tx.textContent=text;return;}fin('next');},skip:()=>fin('skip')};});}
@@ -1259,7 +1262,7 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
 $('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);SFX.click();startGame();};
-window.__jd={enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
+window.__jd={pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
