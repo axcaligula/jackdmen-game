@@ -1271,7 +1271,7 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
 $('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);SFX.click();startGame();};
-window.__jd={pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
+window.__jd={room:i=>goRoom(i),pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
