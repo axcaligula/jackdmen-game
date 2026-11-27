@@ -912,7 +912,16 @@ function renderPortrait(){const g=portG;if(!g)return;portLast=performance.now();
   portR.render(scene,portCam);others.forEach(n=>n.g.root.visible=true);if(player)player.root.visible=pv;ringP.visible=rv[0];ringT.visible=rv[1];}catch(e){}}
 function showPortrait(g){const box_=$('#dPort');try{if(portR.domElement.parentNode!==box_)box_.appendChild(portR.domElement);}catch(e){}portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
 function isIn(o,root){while(o){if(o===root)return true;o=o.parent;}return false;}
-function updPortrait(){if(!player)return;$('#portrait').src=snap(player,0);}
+function updPortrait(){if(!player)return;const g=player;
+ /* clean head-and-shoulders shot: hide the room + everyone else so walls/props can never get in front of the camera */
+ const wv=world.visible,rv=[ringP.visible,ringT.visible],nv=npcs.map(n=>n.g.root.visible),sv=sils.map(s=>s.g.root.visible),was=g.mode,ry=g.body.rotation.y;
+ try{world.visible=false;ringP.visible=ringT.visible=false;npcs.forEach(n=>n.g.root.visible=false);sils.forEach(s=>s.g.root.visible=false);g.root.visible=true;
+  g.mode='idle';g.talkT=0;animGuy(g,.016,T,true);g.body.rotation.y=0;g.root.updateMatrixWorld(true);
+  const hp=new THREE.Vector3();g.P.head.getWorldPosition(hp);const a=g.root.rotation.y,fw=new THREE.Vector3(Math.sin(a),0,Math.cos(a));
+  snapCam.position.copy(hp).addScaledVector(fw,.85*g.h).add(new THREE.Vector3(0,.02,0));snapCam.lookAt(hp.x,hp.y-.06*g.h,hp.z);
+  snapR.render(scene,snapCam);$('#portrait').src=snapR.domElement.toDataURL('image/jpeg',.85);}
+ catch(e){}
+ world.visible=wv;ringP.visible=rv[0];ringT.visible=rv[1];npcs.forEach((n,i)=>n.g.root.visible=nv[i]);sils.forEach((s,i)=>s.g.root.visible=sv[i]);g.mode=was;g.body.rotation.y=ry;}
 
 /* ================= BUBBLES ================= */
 const bubs=new Map();const V=new THREE.Vector3();
@@ -1271,7 +1280,7 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
 $('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);SFX.click();startGame();};
-window.__jd={room:i=>goRoom(i),pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
+window.__jd={wear:id=>{if(!S.owned.includes(id))S.owned.push(id);wear(id,true);},room:i=>goRoom(i),pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
