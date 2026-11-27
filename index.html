@@ -901,7 +901,7 @@ function renderPortrait(){const g=portG;if(!g)return;portLast=performance.now();
   const pv=player&&player.root.visible,rv=[ringP.visible,ringT.visible];if(player&&g!==player)player.root.visible=false;ringP.visible=ringT.visible=false;
   const others=npcs.filter(n=>n.g!==g&&n.g.root.visible);others.forEach(n=>n.g.root.visible=false);
   portR.render(scene,portCam);others.forEach(n=>n.g.root.visible=true);if(player)player.root.visible=pv;ringP.visible=rv[0];ringT.visible=rv[1];}catch(e){}}
-function showPortrait(g){portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
+function showPortrait(g){const box_=$('#dPort');if(portR.domElement.parentNode!==box_)box_.appendChild(portR.domElement);portG=g;$('#dPort').classList.toggle('me',g===player);renderPortrait();}
 function isIn(o,root){while(o){if(o===root)return true;o=o.parent;}return false;}
 function updPortrait(){if(!player)return;$('#portrait').src=snap(player,0);}
 
