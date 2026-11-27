@@ -109,7 +109,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 .rbtn svg{width:36px;height:36px}
 .rbtn.dim{opacity:.45}
 .rbtn:active{transform:translateY(3px)}
-#bHand{bottom:24px}#bEye{bottom:104px}#bQuest{bottom:184px}#bBeer{bottom:264px;background:#7a4a12}#bBeer[hidden]{display:none}
+#bHand{bottom:24px}#bEye{bottom:104px}#bQuest{bottom:184px}#bAct{right:104px;bottom:24px;background:#145a2a}#bAct[hidden]{display:none}#bBeer{bottom:264px;background:#7a4a12}#bBeer[hidden]{display:none}
 #cash{position:absolute;right:14px;top:12px;display:flex;align-items:center}
 #cash .bill{width:54px;height:54px;position:relative;z-index:2;filter:drop-shadow(1px 2px 0 #111)}
 #cash .amt{background:#2a3566;border:2px solid #0d1530;border-radius:10px;margin-left:-20px;padding:6px 48px 6px 30px;font:900 26px Archivo,sans-serif;min-width:150px;text-align:right}
@@ -130,7 +130,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 #roomname{position:absolute;left:14px;top:72px;font-size:20px;color:var(--yel);text-shadow:2px 2px 0 #111;pointer-events:none}
 #tip{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:12px;color:#b8c5f0;text-shadow:1px 1px 0 #000;pointer-events:none;white-space:nowrap}
 @media (max-width:700px){
- .rbtn{width:58px;height:58px;right:14px}#bHand{bottom:16px}#bEye{bottom:84px}#bQuest{bottom:152px}#bBeer{bottom:220px}
+ .rbtn{width:58px;height:58px;right:14px}#bHand{bottom:16px}#bEye{bottom:84px}#bQuest{bottom:152px}#bBeer{bottom:220px}#bAct{right:84px;bottom:16px}
  #pcard{width:86px;bottom:10px;left:10px}#pcard .ph{width:86px;height:98px}
  #pcard .lv svg{width:40px;height:40px}#pcard .lv span{font-size:14px}
  #joy{left:110px;width:126px;height:126px;bottom:16px}
@@ -197,6 +197,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 .tagl i{font-style:normal;background:#24306b;border-radius:14px;padding:3px 10px;font-weight:700;font-size:14px}
 .ql{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .ql li{background:#0f1640;border-radius:10px;padding:10px 12px;font-weight:700;display:flex;gap:10px;align-items:center}
+.ql li.jk{cursor:pointer;justify-content:space-between}.ql li.jk.on{background:var(--yel);color:#111}.ql li.jk button{background:none;border:0;color:inherit;font:700 18px Archivo;cursor:pointer;min-width:36px;min-height:36px}
 .ql li.done{color:#7fe08f;text-decoration:line-through}
 #kissBox{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);z-index:35;background:#16204f;border:3px solid #111;box-shadow:5px 6px 0 #111;border-radius:16px;padding:14px 18px;text-align:center;display:none;animation:bp .25s cubic-bezier(.2,1.6,.4,1)}
 #kissBox.on{display:block}
@@ -298,6 +299,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
   <div id="cash"><svg class="bill" viewBox="0 0 54 54"><g transform="rotate(-18 27 27)"><rect x="6" y="14" width="40" height="24" rx="4" fill="#8fd43a" stroke="#111" stroke-width="3"/><rect x="10" y="10" width="40" height="24" rx="4" fill="#a6e848" stroke="#111" stroke-width="3"/><circle cx="30" cy="22" r="6" fill="#6fae22" stroke="#111" stroke-width="2"/></g></svg><span class="amt" id="amt">0</span><button class="plus" id="bShop" aria-label="Shop">+</button></div>
   <div id="pcard" title="Your stats"><div class="ph"><img id="portrait" alt=""></div><div class="lv"><svg viewBox="0 0 52 52"><use href="#ic-star"/></svg><span id="lvl">Level 1</span></div></div>
   <div id="joy"><div class="ar"><i style="left:50%;top:6px;transform:translateX(-50%)">▲</i><i style="left:50%;bottom:6px;transform:translateX(-50%)">▼</i><i style="left:8px;top:50%;transform:translateY(-50%)">◀</i><i style="right:8px;top:50%;transform:translateY(-50%)">▶</i></div><div class="k" id="knob"></div></div>
+  <button class="rbtn" id="bAct" hidden aria-label="Use"></button>
   <button class="rbtn" id="bBeer" hidden aria-label="Buy a beer"><svg viewBox="0 0 36 36"><rect x="7" y="9" width="17" height="22" rx="3" fill="#f5c518" stroke="#111" stroke-width="2"/><path d="M24 13h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4" fill="none" stroke="#111" stroke-width="2.5"/><path d="M6 10c0-4 4-5 6-4 1-3 7-3 8 0 2-1 6 0 5 4z" fill="#fff" stroke="#111" stroke-width="1.5"/></svg></button>
   <button class="rbtn dim" id="bEye" aria-label="Look at him"><svg viewBox="0 0 36 36"><path d="M3 18c4-7 9-10 15-10s11 3 15 10c-4 7-9 10-15 10S7 25 3 18z" fill="#fff"/><circle cx="18" cy="18" r="6" fill="#1f2a66"/></svg></button>
   <button class="rbtn dim" id="bHand" aria-label="Talk"><svg viewBox="0 0 36 36"><path d="M18 5C9.7 5 4 10.3 4 16.5c0 3.6 2 6.8 5.2 8.9L7.5 31l6.6-3.6c1.2.3 2.5.4 3.9.4 8.3 0 14-5.3 14-11.3S26.3 5 18 5z" fill="#fff"/><circle cx="12" cy="16.5" r="2" fill="#1f2a66"/><circle cx="18" cy="16.5" r="2" fill="#1f2a66"/><circle cx="24" cy="16.5" r="2" fill="#1f2a66"/></svg></button>
@@ -319,6 +321,12 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 <div class="field"><b>CHEAT CODE</b><div style="display:flex;gap:8px"><input class="txt" id="cheatIn" maxlength="20" placeholder="Enter code" autocomplete="off"><button class="btn" id="cheatGo" style="font-size:18px;padding:8px 16px">Enter</button></div><p id="cheatMsg" style="margin:0"></p></div>
 <div class="field"><b>ROOMS</b><div class="chips" id="roomPick"></div><p id="barStat" style="margin:0;font-size:14px;color:#c9d6ff;overflow-wrap:anywhere"></p><button class="chip" id="barRetry" hidden>Retry loading the Blender bar</button></div>
 <button class="btn dark" id="optNew" style="font-size:18px">Start a new game</button></div></div>
+<div class="modal" id="mJuke"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">Jukebox</h2><p id="jkNow">Pick a song.</p><ul class="ql" id="jkList"></ul>
+<label class="btn grn" style="text-align:center">Add songs from this device<input type="file" accept="audio/*" multiple id="jkFile" hidden></label>
+<p style="font-size:13px">Songs you add stay on this device only. They aren't uploaded anywhere.</p><button class="btn dark" id="jkStop">Stop the music</button></div></div>
+<div class="modal" id="mPool"><div class="card" style="width:min(940px,100%);padding:14px"><button class="x" data-close>✕</button><h2 class="imp" style="margin:0 0 6px">Pool</h2>
+<p id="plInfo" style="margin:0 0 8px">Drag back from the cue ball and let go to shoot. Sink all 15.</p><div style="position:relative;width:100%;aspect-ratio:2/1.08;touch-action:none"><canvas id="plCan" width="900" height="486" style="width:100%;height:100%;display:block;border-radius:14px;touch-action:none"></canvas></div>
+<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"><button class="btn dark" id="plNew" style="font-size:18px;padding:8px 16px">New rack</button></div></div></div>
 <div class="modal" id="mEnd"><div class="card" style="text-align:center"><img class="logo" data-logo alt="" style="margin:auto;width:180px"><h2 class="imp" style="font-size:54px">You're Jack'd.</h2><p style="font-size:18px;color:#fff">Boots. Brass. Working class.</p><p id="endStats"></p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn grn" id="keep">Keep playing</button><button class="btn dark" id="newGame">New game</button></div></div></div>
 
 <div id="kissBox"><p id="kissQ"></p><div class="kb"><button class="btn" id="kYes">Kiss him</button><button class="btn dark" id="kNo">Walk away</button></div></div>
@@ -750,7 +758,7 @@ const BUILD=[
   const neon=mesh(new THREE.PlaneGeometry(3.6,.9),new THREE.MeshBasicMaterial({map:signTex('RUFF HAUS','#3df0ff','rgba(0,0,0,0)',96),transparent:true}),-W/2+.02,3.3,1,false);neon.rotation.y=Math.PI/2;g.add(neon);
   addLight(g,0xff3fa0,3,9,-3.2,3.6,-4.5);addLight(g,0x4f7bff,2.5,10,-1.5,3.8,-3);addLight(g,0xffc070,2.6,10,4,3.6,0);addLight(g,0xffb040,1.6,6,1.4,2.2,-D/2+1.5);
   const dr=door(g,4.2,-D/2+.05,'THE TUNNEL →',M('#111'));
-  return {g,W,D,col,boxes,door:dr,bg:0x0c1030,fog:[0x0c1030,14,40],hemi:[0x9fb0ff,0x1a2a2a,.6],sun:[0xc8d4ff,.4],start:[0,D/2-1.5],stage:{x:-3.2,z:-5.4}};},
+  return {g,W,D,col,boxes,door:dr,bg:0x0c1030,fog:[0x0c1030,14,40],hemi:[0x9fb0ff,0x1a2a2a,.6],sun:[0xc8d4ff,.4],start:[0,D/2-1.5],stage:{x:-3.2,z:-5.4},pool:{x:-4.2,z:2.5,r:2.6},juke:{x:1.4,z:-D/2+.5,r:1.9}};},
  // 3 THE TUNNEL
  ()=>{const W=5,D=36,H=4.6,g=new THREE.Group(),col=[],sil=[];
   g.add(floor(W,D,M('#fff',{map:TX.wet(2,14),roughness:.18,metalness:.2})));
@@ -812,7 +820,7 @@ function buildGlbBar(){const k=BK,g=new THREE.Group();BAR.scale.setScalar(k);BAR
  const C=(x,z,r)=>({x:x*k,z:z*k,r:r*k}),Bx=(x0,x1,z0,z1)=>({x0:x0*k,x1:x1*k,z0:z0*k,z1:z1*k}),N=(x,z,y,ry)=>[x*k,z*k,y*k,ry];
  return {g,glb:true,W:8*k,D:12*k,col:[C(-2.48,-4.92,2.02)],
   boxes:[Bx(2.01,2.95,-4.25,-0.96),Bx(1.81,2.29,-3.61,-1.42),Bx(-2.79,-1.32,-.55,2.05),Bx(2.81,4.02,-5.44,-3.38),Bx(3.44,3.85,-5.8,-5.37),Bx(3.18,3.92,.57,1.33),Bx(3.24,4.23,1.95,2.85),Bx(2.83,3.85,4.81,5.83),Bx(-3.93,-3.0,3.39,4.17),Bx(-4.04,-3.44,4.25,4.85),Bx(-.06,.54,-5.95,-5.35),Bx(1.34,1.93,5.12,5.71),Bx(.64,1.24,-5.92,-5.32)],
-  door:dr,bg:0x0c1030,fog:[0x0c1030,16*k,40*k],hemi:[0xc8d0ff,0x2a1a20,.55],sun:[0xffe0d0,.45],start:[0.69*k,4.75*k],stage:{x:-2.48*k,z:-4.92*k},env:barEnv,camMaxY:3.0*k+.3,
+  door:dr,bg:0x0c1030,fog:[0x0c1030,16*k,40*k],hemi:[0xc8d0ff,0x2a1a20,.55],sun:[0xffe0d0,.45],start:[0.69*k,4.75*k],stage:{x:-2.48*k,z:-4.92*k},pool:{x:-2.05*k,z:.75*k,r:2.3*k},juke:{x:3.73*k,z:2.4*k,r:1.9*k},env:barEnv,camMaxY:3.0*k+.3,
   npcPos:{buck:N(-1.92,-3.74,.32,.45),gus:N(3.53,-3.08,0,-1.57),chet:N(-2.24,3.03,0,Math.PI),isaiah:N(2.44,-0.33,0,-1.57)}};}
 const SIL_LINES=['Door\'s open.','...','Lost?','Keep walking, cowboy.','Took a wrong turn?','Mm.','Boots off in here.'];
 
@@ -1034,6 +1042,72 @@ function ending(){S.done=true;save();$('#endStats').textContent=`${Object.keys(S
 $('#keep').onclick=()=>closeM($('#mEnd'));
 $('#newGame').onclick=()=>{try{localStorage.removeItem('jackd_save')}catch(e){}location.reload();};
 
+/* ================= JUKEBOX ================= */
+const POOL_ICON='<svg viewBox="0 0 36 36" width="38" height="38"><circle cx="18" cy="18" r="14" fill="#111" stroke="#fff" stroke-width="2"/><circle cx="18" cy="15" r="6.5" fill="#fff"/><text x="18" y="19" text-anchor="middle" font-size="9" font-weight="900" font-family="Archivo" fill="#111">8</text></svg>';
+const JUKE_ICON='<svg viewBox="0 0 36 36" width="36" height="36"><path d="M10 21V8l15-3v13" stroke="#fff" stroke-width="2.6" fill="none"/><circle cx="7.5" cy="21" r="3.6" fill="#f5c518"/><circle cx="22.5" cy="18" r="3.6" fill="#f5c518"/><rect x="6" y="26" width="24" height="5" rx="2" fill="#ff8a00"/></svg>';
+let jkTracks=[],jkCur=null;
+async function jkLoad(){try{const db=await idb();jkTracks=await new Promise(r=>{const q=db.transaction('f').objectStore('f').get('tracks');q.onsuccess=()=>r(q.result||[]);q.onerror=()=>r([]);});}catch(e){jkTracks=[];}}
+async function jkSave(){try{const db=await idb();db.transaction('f','readwrite').objectStore('f').put(jkTracks,'tracks');}catch(e){}}
+function jkRender(){const L=[{k:'beat',n:'House beat (built in)'}];if(Music.url&&!jkTracks.length)L.push({k:'club',n:'Club Motorcycle'});jkTracks.forEach((t,i)=>L.push({k:'t'+i,n:t.name,i}));
+ $('#jkList').innerHTML=L.map(t=>`<li class="jk ${jkCur===t.k?'on':''}" data-k="${t.k}"><span>♪ ${esc(t.n)}</span>${t.i!=null?`<button data-del="${t.i}" aria-label="Remove">✕</button>`:''}</li>`).join('');}
+$('#jkList').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){e.stopPropagation();jkTracks.splice(+d.dataset.del,1);jkSave();jkRender();return;}
+ const li=e.target.closest('[data-k]');if(!li)return;const k=li.dataset.k;SFX.coin();jkCur=k;
+ if(k==='beat'){Music.url=null;Music.setFile(null);}else if(k==='club'){Music.setFile(Music.url);}else{const t=jkTracks[+k.slice(1)];Music.setFile(URL.createObjectURL(t.blob));}
+ $('#jkNow').textContent='Now playing: '+li.textContent.replace('♪','').replace('✕','').trim();jkRender();toast('JUKEBOX',$('#jkNow').textContent,true);});
+$('#jkFile').onchange=async e=>{for(const f of e.target.files)jkTracks.push({name:f.name.replace(/\.[^.]+$/,'').replace(/^\d+[_ -]*/,'').replace(/_/g,' '),blob:f});await jkSave();jkRender();e.target.value='';};
+$('#jkStop').onclick=()=>{Music.stop();jkCur=null;$('#jkNow').textContent='Music stopped.';jkRender();};
+async function openJuke(){await jkLoad();jkRender();openM('mJuke');SFX.click();}
+
+/* ================= POOL ================= */
+const PL={W:900,H:486,R:11,cush:42,balls:[],shots:0,aim:null,moving:false,raf:0,done:false};
+const PCOL=['#f5c518','#1f4fd1','#d42020','#6a2fb0','#f07a12','#147a2e','#7a1a12','#111','#f5c518','#1f4fd1','#d42020','#6a2fb0','#f07a12','#147a2e','#7a1a12'];
+function plPockets(){const c=PL.cush,W=PL.W,H=PL.H;return [[c,c],[W/2,c-6],[W-c,c],[c,H-c],[W/2,H-c+6],[W-c,H-c]];}
+function plRack(){const b=[];b.push({x:PL.W*.26,y:PL.H/2,c:'#fff',n:0,vx:0,vy:0,in:false});const sx=PL.W*.68,R=PL.R*2.02,order=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15];let k=0;
+ for(let row=0;row<5;row++)for(let j=0;j<=row;j++){const n=order[k++];b.push({x:sx+row*R*.87,y:PL.H/2+(j-row/2)*R,c:PCOL[n-1],n,stripe:n>8,vx:0,vy:0,in:false});}
+ PL.balls=b;PL.shots=0;PL.done=false;plInfo();}
+function plInfo(){const left=PL.balls.filter(b=>b.n&&!b.in).length;$('#plInfo').textContent=PL.done?`Table cleared in ${PL.shots} shots! Rack 'em again?`:`Balls left: ${left} · Shots: ${PL.shots}${S.poolBest?' · Best: '+S.poolBest:''}`;}
+function plDraw(){const c=$('#plCan').getContext('2d'),W=PL.W,H=PL.H,cu=PL.cush;
+ c.fillStyle='#4a2a14';c.fillRect(0,0,W,H);c.fillStyle='#5c3618';c.fillRect(8,8,W-16,H-16);
+ const g=c.createRadialGradient(W/2,H/2,40,W/2,H/2,W*.6);g.addColorStop(0,'#1e8a3c');g.addColorStop(1,'#0f5a24');c.fillStyle=g;c.fillRect(cu-12,cu-12,W-2*cu+24,H-2*cu+24);
+ c.fillStyle='#d9b26a';for(const x of [W*.25,W*.375,W*.625,W*.75]){c.beginPath();c.arc(x,cu-24,3,0,7);c.fill();c.beginPath();c.arc(x,H-cu+24,3,0,7);c.fill();}
+ c.fillStyle='#050505';for(const [x,y] of plPockets()){c.beginPath();c.arc(x,y,20,0,7);c.fill();}
+ c.strokeStyle='rgba(255,255,255,.15)';c.beginPath();c.moveTo(W*.26,cu);c.lineTo(W*.26,H-cu);c.stroke();
+ for(const b of PL.balls){if(b.in)continue;c.fillStyle='rgba(0,0,0,.35)';c.beginPath();c.arc(b.x+3,b.y+4,PL.R,0,7);c.fill();
+  if(b.stripe){c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,PL.R,0,7);c.fill();c.save();c.beginPath();c.arc(b.x,b.y,PL.R,0,7);c.clip();c.fillStyle=b.c;c.fillRect(b.x-PL.R,b.y-PL.R*.55,PL.R*2,PL.R*1.1);c.restore();}
+  else{c.fillStyle=b.c;c.beginPath();c.arc(b.x,b.y,PL.R,0,7);c.fill();}
+  if(b.n){c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,4.6,0,7);c.fill();c.fillStyle='#111';c.font='bold 7px Archivo';c.textAlign='center';c.textBaseline='middle';c.fillText(b.n,b.x,b.y+.5);}
+  c.fillStyle='rgba(255,255,255,.55)';c.beginPath();c.arc(b.x-3.5,b.y-3.5,2.6,0,7);c.fill();}
+ const cb=PL.balls[0];if(PL.aim&&!PL.moving&&!cb.in){const {dx,dy}=PL.aim,len=Math.min(160,Math.hypot(dx,dy));if(len>4){const ux=-dx/Math.hypot(dx,dy),uy=-dy/Math.hypot(dx,dy);
+  c.setLineDash([6,6]);c.strokeStyle='rgba(255,255,255,.7)';c.lineWidth=2;c.beginPath();c.moveTo(cb.x,cb.y);c.lineTo(cb.x+ux*380,cb.y+uy*380);c.stroke();c.setLineDash([]);
+  c.strokeStyle='#e8c27a';c.lineWidth=6;c.lineCap='round';c.beginPath();c.moveTo(cb.x-ux*(18+len*.6),cb.y-uy*(18+len*.6));c.lineTo(cb.x-ux*(18+len*.6+230),cb.y-uy*(18+len*.6+230));c.stroke();
+  c.fillStyle='#f5c518';c.fillRect(20,H-14,len/160*(W-40),6);}}}
+function plStep(){const B=PL.balls,R=PL.R,cu=PL.cush,W=PL.W,H=PL.H;let moving=false;
+ for(let sub=0;sub<4;sub++){for(const b of B){if(b.in)continue;b.x+=b.vx/4;b.y+=b.vy/4;
+   if(b.x<cu+R){b.x=cu+R;b.vx=Math.abs(b.vx)*.85;}if(b.x>W-cu-R){b.x=W-cu-R;b.vx=-Math.abs(b.vx)*.85;}
+   if(b.y<cu+R){b.y=cu+R;b.vy=Math.abs(b.vy)*.85;}if(b.y>H-cu-R){b.y=H-cu-R;b.vy=-Math.abs(b.vy)*.85;}
+   for(const [px,py] of plPockets())if(Math.hypot(b.x-px,b.y-py)<22){b.in=true;b.vx=b.vy=0;SFX.tick();if(b.n)SFX.coin();}}
+  for(let i=0;i<B.length;i++)for(let j=i+1;j<B.length;j++){const a=B[i],b=B[j];if(a.in||b.in)continue;const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);
+   if(d<2*R&&d>0){const nx=dx/d,ny=dy/d,ov=2*R-d;a.x-=nx*ov/2;a.y-=ny*ov/2;b.x+=nx*ov/2;b.y+=ny*ov/2;const rv=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(rv>0){a.vx-=rv*nx;a.vy-=rv*ny;b.vx+=rv*nx;b.vy+=rv*ny;if(rv>1.2)tone(1800+rv*80,now(),.03,'square',.03);}}}}
+ for(const b of B){if(b.in)continue;b.vx*=.987;b.vy*=.987;if(Math.hypot(b.vx,b.vy)<.05){b.vx=b.vy=0;}else moving=true;}
+ PL.moving=moving;
+ if(!moving){const cb=B[0];if(cb.in){cb.in=false;cb.x=PL.W*.26;cb.y=PL.H/2;for(const o of B)if(o!==cb&&!o.in&&Math.hypot(o.x-cb.x,o.y-cb.y)<2*R)cb.y+=2*R;toast('SCRATCH','Cue ball back on the spot');}
+  if(!PL.done&&B.every(b=>!b.n||b.in)){PL.done=true;SFX.jackpot();jack('CLEARED!');if(!S.poolBest||PL.shots<S.poolBest)S.poolBest=PL.shots;earn(50,null);save();qEvent({type:'pool'});}
+  plInfo();}
+ plDraw();if($('#mPool').classList.contains('on'))PL.raf=requestAnimationFrame(plStep);}
+function plPos(e){const r=$('#plCan').getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*PL.W,y:(e.clientY-r.top)/r.height*PL.H};}
+$('#plCan').addEventListener('pointerdown',e=>{if(PL.moving||PL.done)return;e.preventDefault();$('#plCan').setPointerCapture(e.pointerId);PL.start=plPos(e);PL.aim={dx:0,dy:0};});
+$('#plCan').addEventListener('pointermove',e=>{if(!PL.aim||!PL.start)return;const p=plPos(e),cb=PL.balls[0];PL.aim={dx:p.x-cb.x,dy:p.y-cb.y};if(Math.hypot(p.x-PL.start.x,p.y-PL.start.y)<3&&Math.hypot(PL.aim.dx,PL.aim.dy)<30)PL.aim={dx:0,dy:0};});
+$('#plCan').addEventListener('pointerup',e=>{if(!PL.aim)return;const {dx,dy}=PL.aim;PL.aim=null;PL.start=null;const len=Math.hypot(dx,dy);if(len<6)return;
+ const pw=Math.min(160,len)/160*22,cb=PL.balls[0];cb.vx=-dx/len*pw;cb.vy=-dy/len*pw;PL.shots++;tone(320,now(),.08,'triangle',.15,200);plInfo();});
+$('#plNew').onclick=()=>{plRack();SFX.click();};
+function openPool(){if(!PL.balls.length||PL.done)plRack();openM('mPool');cancelAnimationFrame(PL.raf);PL.raf=requestAnimationFrame(plStep);SFX.click();plInfo();}
+$('#bAct').onclick=()=>{const a=$('#bAct').dataset.a;if(a==='pool')openPool();else if(a==='juke')openJuke();};
+/* click the pool table or jukebox in the 3D view */
+{const rc=new THREE.Raycaster(),mv=new THREE.Vector2();canvas.addEventListener('click',e=>{if(mode!=='game'||busy||!R||document.querySelector('.modal.on'))return;
+ mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);rc.setFromCamera(mv,camera);const hit=rc.intersectObject(R.g,true)[0];if(!hit)return;const h=hit.point;
+ const inR=(sp,pad)=>sp&&Math.hypot(h.x-sp.x,h.z-sp.z)<pad;
+ if(R.pool&&inR(R.pool,1.9*(R.glb?BK:1))&&h.y<1.3*(R.glb?BK:1))openPool();else if(R.juke&&inR(R.juke,.9*(R.glb?BK:1))&&h.y<2.2*(R.glb?BK:1))openJuke();});}
+
 /* ================= INPUT ================= */
 const keys=new Set();const joy={x:0,y:0,id:null};
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;keys.add(e.key.toLowerCase());
@@ -1069,7 +1143,8 @@ function step(dt){
  for(const s of sils)animGuy(s.g,dt,T);
  if(busy)target=null;
  ringT.visible=!!target;if(target){ringT.position.set(target.g.root.position.x,target.g.root.position.y+.04,target.g.root.position.z);ringT.material.opacity=.6+.3*Math.sin(T*6);}
- $('#bEye').classList.toggle('dim',!target);$('#bBeer').hidden=!(target&&target.def.id==='gus'&&!S.beer&&!busy);$('#bHand').classList.toggle('dim',!target);
+ $('#bEye').classList.toggle('dim',!target);$('#bBeer').hidden=!(target&&target.def.id==='gus'&&!S.beer&&!busy);
+ {const nr=(sp)=>sp&&Math.hypot(p.x-sp.x,p.z-sp.z)<sp.r;const a=busy?null:nr(R.pool)?'pool':nr(R.juke)?'juke':null;const b=$('#bAct');if(b.dataset.a!==(a||'')){b.dataset.a=a||'';b.hidden=!a;b.innerHTML=a==='pool'?POOL_ICON:a==='juke'?JUKE_ICON:'';b.setAttribute('aria-label',a==='pool'?'Play pool':'Use the jukebox');}}$('#bHand').classList.toggle('dim',!target);
  if(target!==step.lt){if(tagEl){tagEl.remove();tagEl=null;}step.lt=target;}
  if(target&&!bubs.get(target.g)){if(!tagEl){tagEl=document.createElement('div');tagEl.className='bub tag';$('#bubs').appendChild(tagEl);}tagEl.textContent=target.def.name+(target.cd>T?' · wait':'');const b={el:tagEl,g:target.g};posBub(b);}else if(tagEl){tagEl.remove();tagEl=null;}
  ambT-=dt;if(ambT<=0){ambT=rnd(.9,2);const pool=npcs.filter(n=>!bubs.get(n.g)&&n.turnTo==null).map(n=>({g:n.g,lines:(n.def.shadow&&!wearing('towel'))?['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']:n.def.amb})).concat(sils.map(s=>({g:s.g,lines:wearing('towel')?SIL_LINES:['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']})));
