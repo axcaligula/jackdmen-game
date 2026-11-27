@@ -95,7 +95,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 .rbtn svg{width:36px;height:36px}
 .rbtn.dim{opacity:.45}
 .rbtn:active{transform:translateY(3px)}
-#bHand{bottom:24px}#bEye{bottom:104px}#bBeer{bottom:184px;background:#7a4a12}#bBeer[hidden]{display:none}
+#bHand{bottom:24px}#bEye{bottom:104px}#bQuest{bottom:184px}#bBeer{bottom:264px;background:#7a4a12}#bBeer[hidden]{display:none}
 #cash{position:absolute;right:14px;top:12px;display:flex;align-items:center}
 #cash .bill{width:54px;height:54px;position:relative;z-index:2;filter:drop-shadow(1px 2px 0 #111)}
 #cash .amt{background:#2a3566;border:2px solid #0d1530;border-radius:10px;margin-left:-20px;padding:6px 48px 6px 30px;font:900 26px Archivo,sans-serif;min-width:150px;text-align:right}
@@ -103,6 +103,9 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 #quest{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:rgba(28,140,52,.82);border:3px solid #3ddc5f;border-radius:12px;padding:8px 18px;min-width:min(330px,46vw);max-width:min(460px,56vw);cursor:pointer;transition:transform .25s}
 #quest b{display:block;font:900 18px Archivo,sans-serif;letter-spacing:.02em}
 #quest span{font-weight:600;font-size:16px}
+#quest.hid{display:none}
+#qx{position:absolute;right:4px;top:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.35);color:#fff;font:900 14px Archivo;cursor:pointer}
+#quest{padding-right:38px!important}
 #quest.pulse{animation:qp .5s ease 2}
 @keyframes qp{50%{transform:translateX(-50%) scale(1.08)}}
 #quest.gold{background:rgba(190,140,10,.9);border-color:var(--yel)}
@@ -113,6 +116,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 #roomname{position:absolute;left:14px;top:72px;font-size:20px;color:var(--yel);text-shadow:2px 2px 0 #111;pointer-events:none}
 #tip{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:12px;color:#b8c5f0;text-shadow:1px 1px 0 #000;pointer-events:none;white-space:nowrap}
 @media (max-width:700px){
+ .rbtn{width:58px;height:58px;right:14px}#bHand{bottom:16px}#bEye{bottom:84px}#bQuest{bottom:152px}#bBeer{bottom:220px}
  #pcard{width:86px;bottom:10px;left:10px}#pcard .ph{width:86px;height:98px}
  #pcard .lv svg{width:40px;height:40px}#pcard .lv span{font-size:14px}
  #joy{left:110px;width:126px;height:126px;bottom:16px}
@@ -123,6 +127,9 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 }
 /* bubbles */
 #bubs{position:fixed;inset:0;z-index:9;pointer-events:none;overflow:hidden}
+@font-face{font-family:"JackA";src:local("Jack Armstrong"),local("JackArmstrong"),local("Jack Armstrong BB"),local("JackArmstrongBB"),local("JackArmstrong-Regular");font-display:swap}
+.bub,.bub.talk,.bub.me,.bub.cold{font-family:"JackA","Archivo",sans-serif}
+#kissBox p{font-family:"JackA","Archivo",sans-serif}
 .bub{position:absolute;transform:translate(-50%,-100%);background:#fff;color:#111;border:3px solid #111;border-radius:14px;padding:6px 11px;font:800 14px/1.25 Archivo,sans-serif;max-width:220px;text-align:center;box-shadow:3px 3px 0 rgba(0,0,0,.4);animation:bp .22s cubic-bezier(.2,1.6,.4,1)}
 .bub::after{content:"";position:absolute;left:50%;bottom:-11px;margin-left:-8px;border:8px solid transparent;border-top-color:#111;border-bottom:0}
 .bub.me{background:var(--yel)}
@@ -267,14 +274,15 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
     <button class="sbtn" id="bMusic" aria-label="Music"><svg viewBox="0 0 28 28"><path d="M10 21V6l13-3v15" stroke="#fff" stroke-width="2.6" fill="none"/><circle cx="7" cy="21" r="3.5" fill="#fff"/><circle cx="20" cy="18" r="3.5" fill="#fff"/></svg></button>
   </div>
   <div id="roomname" class="imp"></div>
-  <div id="quest"><b id="qh">NEW QUEST</b><span id="qt"></span></div>
+  <div id="quest"><button id="qx" aria-label="Hide quest">✕</button><b id="qh">NEW QUEST</b><span id="qt"></span></div>
   <div id="cash"><svg class="bill" viewBox="0 0 54 54"><g transform="rotate(-18 27 27)"><rect x="6" y="14" width="40" height="24" rx="4" fill="#8fd43a" stroke="#111" stroke-width="3"/><rect x="10" y="10" width="40" height="24" rx="4" fill="#a6e848" stroke="#111" stroke-width="3"/><circle cx="30" cy="22" r="6" fill="#6fae22" stroke="#111" stroke-width="2"/></g></svg><span class="amt" id="amt">0</span><button class="plus" id="bShop" aria-label="Shop">+</button></div>
   <div id="pcard" title="Your stats"><div class="ph"><img id="portrait" alt=""></div><div class="lv"><svg viewBox="0 0 52 52"><use href="#ic-star"/></svg><span id="lvl">Level 1</span></div></div>
   <div id="joy"><div class="ar"><i style="left:50%;top:6px;transform:translateX(-50%)">▲</i><i style="left:50%;bottom:6px;transform:translateX(-50%)">▼</i><i style="left:8px;top:50%;transform:translateY(-50%)">◀</i><i style="right:8px;top:50%;transform:translateY(-50%)">▶</i></div><div class="k" id="knob"></div></div>
   <button class="rbtn" id="bBeer" hidden aria-label="Buy a beer"><svg viewBox="0 0 36 36"><rect x="7" y="9" width="17" height="22" rx="3" fill="#f5c518" stroke="#111" stroke-width="2"/><path d="M24 13h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4" fill="none" stroke="#111" stroke-width="2.5"/><path d="M6 10c0-4 4-5 6-4 1-3 7-3 8 0 2-1 6 0 5 4z" fill="#fff" stroke="#111" stroke-width="1.5"/></svg></button>
   <button class="rbtn dim" id="bEye" aria-label="Look at him"><svg viewBox="0 0 36 36"><path d="M3 18c4-7 9-10 15-10s11 3 15 10c-4 7-9 10-15 10S7 25 3 18z" fill="#fff"/><circle cx="18" cy="18" r="6" fill="#1f2a66"/></svg></button>
-  <button class="rbtn dim" id="bHand" aria-label="Say your lines"><svg viewBox="0 0 36 36"><path d="M11 30c-3-3-6-9-7-12-.6-1.6 1.6-2.6 2.6-1.3L10 21V7.5c0-1.6 2.8-1.6 2.8 0V17h1V5c0-1.6 2.8-1.6 2.8 0v12h1V6.5c0-1.6 2.8-1.6 2.8 0V17h1V9c0-1.6 2.8-1.6 2.8 0v12c0 5-2 9-6 9z" fill="#fff"/></svg></button>
-  <div id="tip">WASD / arrows move · K kiss · E say lines · F look · I album · L lines</div>
+  <button class="rbtn dim" id="bHand" aria-label="Talk"><svg viewBox="0 0 36 36"><path d="M18 5C9.7 5 4 10.3 4 16.5c0 3.6 2 6.8 5.2 8.9L7.5 31l6.6-3.6c1.2.3 2.5.4 3.9.4 8.3 0 14-5.3 14-11.3S26.3 5 18 5z" fill="#fff"/><circle cx="12" cy="16.5" r="2" fill="#1f2a66"/><circle cx="18" cy="16.5" r="2" fill="#1f2a66"/><circle cx="24" cy="16.5" r="2" fill="#1f2a66"/></svg></button>
+  <button class="rbtn" id="bQuest" aria-label="Quests"><span style="font:900 38px/1 Impact,Anton,sans-serif;font-style:italic;color:#f5c518;text-shadow:2px 2px 0 #111">!</span></button>
+  <div id="tip">WASD / arrows move · K kiss · E talk · F look · Q quests · I album · L lines</div>
 </div>
 
 <!-- MODALS -->
@@ -853,7 +861,7 @@ const doneCount=()=>qd().filter(Boolean).length;const need=()=>S.room===0?3:2;
 function refreshQuest(){const q=ROOMS[S.room].quests,d=qd();const i=d.findIndex(x=>!x);const el=$('#quest');el.classList.remove('gold');
  if(i<0){$('#qh').textContent=ROOMS[S.room].next?'ALL QUESTS DONE':'FINISHED';$('#qt').textContent=ROOMS[S.room].next?'Head through the back door':'You run this tunnel';}
  else{$('#qh').textContent='NEW QUEST';$('#qt').textContent=q[i].t;}}
-function toast(h,t,gold){const el=$('#quest');$('#qh').textContent=h;$('#qt').textContent=t;el.classList.toggle('gold',!!gold);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');clearTimeout(toast.tm);toast.tm=setTimeout(refreshQuest,3200);}
+function toast(h,t,gold){const el=$('#quest');el.classList.remove('hid');$('#qh').textContent=h;$('#qt').textContent=t;el.classList.toggle('gold',!!gold);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');clearTimeout(toast.tm);toast.tm=setTimeout(refreshQuest,3200);}
 function qEvent(e){const q=ROOMS[S.room].quests,d=qd(),r=rs();let changed=false;
  q.forEach((qq,i)=>{if(!d[i]&&qq.f(e,r)){d[i]=true;changed=true;const rw=15*(S.room+1);setTimeout(()=>{toast('QUEST COMPLETE','+$'+rw+' — '+qq.t,true);SFX.quest();setCash(S.cash+rw);},changed?350:0);}});
  if(changed){if(R.door&&!R.unlocked&&doneCount()>=need()){R.unlocked=true;setDoor();setTimeout(()=>{toast('DOOR UNLOCKED','Head to the back: '+ROOMS[S.room].next,true);SFX.door();},1800);}save();}}
@@ -972,12 +980,15 @@ $('#wShop').onclick=()=>{closeM($('#mWard'));renderShop();openM('mShop');};
 let prevR=null,prevS=null,prevC=null,prevG=null;
 function prevBuild(){if(!prevR){prevR=new THREE.WebGLRenderer({canvas:$('#wCan'),antialias:true,alpha:true});prevR.outputEncoding=THREE.sRGBEncoding;prevR.setSize(520,680,false);prevS=new THREE.Scene();prevS.add(new THREE.HemisphereLight(0xdfe6ff,0x2a2a40,.85));const dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(2,4,5);prevS.add(dl);const rl=new THREE.DirectionalLight(0x7fa0ff,.5);rl.position.set(-3,2,-3);prevS.add(rl);prevC=new THREE.PerspectiveCamera(30,520/680,.1,30);prevC.position.set(0,1.15,5.4);prevC.lookAt(0,1.02,0);}
  const ry=prevG?prevG.root.rotation.y:0;if(prevG)prevS.remove(prevG.root);prevG=makeGuy(playerLook());prevG.root.rotation.y=ry;prevS.add(prevG.root);}
-function renderQuests(){const q=ROOMS[S.room].quests,d=qd();$('#qList').innerHTML=q.map((x,i)=>`<li class="${d[i]?'done':''}">${d[i]?'✔':'☐'} ${esc(x.t)}</li>`).join('');$('#qNote').textContent=R&&R.door?(R.unlocked?'Door is open. Head to the back.':'Finish '+(need()===3?'all 3':'2 of 3')+' to unlock the door to '+ROOMS[S.room].next+'.'):'Get The Sheriff to talk to finish the game.';}
+function renderQuests(){let h='';for(let r=0;r<=Math.max(S.room,S.maxRoom||0);r++){const q=ROOMS[r].quests,d=S.q[r]||[false,false,false];const cur=r===S.room;
+ h+=`<li style="background:none;padding:6px 0 0;color:${cur?'#f5c518':'#9fc0ff'}"><b class="imp" style="font-size:20px">${r+1}. ${esc(ROOMS[r].name)}${cur?' (you are here)':''}</b></li>`+q.map((x,i)=>`<li class="${d[i]?'done':''}">${d[i]?'✔':'☐'} ${esc(x.t)}</li>`).join('');}
+ $('#qList').innerHTML=h;$('#qNote').textContent=R&&R.door?(R.unlocked?'Door is open. Head to the back.':'Finish '+(need()===3?'all 3':'2 of 3')+' to unlock the door to '+ROOMS[S.room].next+'.'):'Get The Sheriff to talk to finish the game.';}
 $('#bShop').onclick=()=>{renderShop();openM('mShop');SFX.click();};
 $('#bAlbum').onclick=()=>{renderAlbum();openM('mAlbum');SFX.click();};
 $('#bLines').onclick=()=>{renderLinesEd();openM('mLines');SFX.click();};
 $('#pcard').onclick=()=>{prevBuild();renderStats();openM('mWard');SFX.click();};
-$('#quest').onclick=()=>{renderQuests();openM('mQuests');};
+$('#quest').onclick=e=>{if(e.target.id==='qx'){$('#quest').classList.add('hid');SFX.click();return;}renderQuests();openM('mQuests');};
+$('#bQuest').onclick=()=>{renderQuests();openM('mQuests');SFX.click();};
 $('#bMusic').onclick=()=>{updMusicBtn();openM('mMusic');};
 $('#musToggle').onclick=()=>{Music.on?Music.stop():Music.start();};
 $('#songFile').onchange=e=>{const f=e.target.files[0];if(!f)return;saveSong(f);Music.setFile(URL.createObjectURL(f));};
@@ -1008,7 +1019,7 @@ const keys=new Set();const joy={x:0,y:0,id:null};
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;keys.add(e.key.toLowerCase());
  if(kissPrompt.done){if(e.key==='k'||e.key==='K'||e.key==='Enter')kissPrompt.done(true);if(e.key==='Escape')kissPrompt.done(false);return;}if(mode!=='game'||document.querySelector('.modal.on'))return;
  if(e.key==='e'||e.key==='E'){if(target&&!busy)encounter(target);}if(e.key==='f'||e.key==='F'){if(target&&!busy)inspect(target);}
- if(e.key==='i'||e.key==='I')$('#bAlbum').click();if(e.key==='l'||e.key==='L')$('#bLines').click();});
+ if(e.key==='i'||e.key==='I')$('#bAlbum').click();if(e.key==='q'||e.key==='Q')$('#bQuest').click();if(e.key==='l'||e.key==='L')$('#bLines').click();});
 addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 const jEl=$('#joy'),kEl=$('#knob');
 function jmove(e){const r=jEl.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,max=r.width/2-20;let dx=e.clientX-cx,dy=e.clientY-cy;const l=Math.hypot(dx,dy);if(l>max){dx*=max/l;dy*=max/l;}joy.x=dx/max;joy.y=dy/max;kEl.style.transform=`translate(${dx}px,${dy}px)`;}
