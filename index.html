@@ -1095,8 +1095,10 @@ async function encounter(n){
   if(!S.paid)S.paid={};if(!S.paid[d.id]){S.paid[d.id]=1;earn(25*room,n.g);}
   const hk=hintOf(d.id);if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint,'happy')]);}
   if(d.id==='marco'&&R&&R.bike)await marcoRide(n);
-  setExpr(n.g,'love');SFX.quest();const yes=(await choose(n.g,d.name,['♥ Kiss him','Walk away'],d.name+' is into you. ♥',false))===0;$('#dlg').classList.remove('on');
-  if(yes)await kiss(n);else{encSkip=false;await dialog([NP(pick(['Oh. Okay then.','Your loss, cowboy.','Fine. Whatever.','Huh. Alright.']),'sad')]);}
+  const allPics=d.pol.every((_,i)=>S.album[d.id+'_'+i]);
+  if(!allPics){setExpr(n.g,'happy');encSkip=false;await dialog([NP(pick(['Get all my pictures first. Then we\'ll see.','Collect the whole set, cowboy. Then maybe a kiss.','All three pictures. Then come back for the good stuff.']),'happy')]);}
+  else{setExpr(n.g,'love');SFX.quest();const yes=(await choose(n.g,d.name,['♥ Kiss him','Walk away'],d.name+' is into you. ♥',false))===0;$('#dlg').classList.remove('on');
+  if(yes)await kiss(n);else{encSkip=false;await dialog([NP(pick(['Oh. Okay then.','Your loss, cowboy.','Fine. Whatever.','Huh. Alright.']),'sad')]);}}
   n.cd=T+4;n.g.mode=prevMode;n.turnTo=null;setTimeout(()=>setExpr(n.g,'neutral'),2500);
  } else {
   SFX.brush();setExpr(n.g,'stand');n.g.mode='cross';
