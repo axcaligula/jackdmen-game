@@ -382,10 +382,14 @@ const ITEMS=[
  {id:'harness',name:'Leather Harness',price:80,fx:{brawn:2,swagger:1},slot:'top',d:'Shows off the goods.'},
  {id:'muir',name:'Muir Cap',price:95,fx:{smarts:2,charm:1},slot:'hat',d:'The classic. Instant respect.'},
  {id:'cowboy',name:'Cowboy Hat',price:95,fx:{charm:2,grit:1},slot:'hat',d:'Playboy cowboy energy.'},
+ {id:'septum',name:'Septum Ring',price:50,fx:{},slot:'nose',d:'A little steel right through the middle.'},
+ {id:'nipples',name:'Nipple Rings',price:60,fx:{},slot:'nips',d:'Two silver rings. Catches the light.'},
+ {id:'chestpiece',name:'Chest Piece Tattoo',price:110,fx:{},slot:'chest',d:'A winged sheriff star across your chest.'},
+ {id:'tats',name:'Full Body Tattoos',price:160,fx:{},slot:'ink',d:'Sleeves, legs, back, the works. Covered.'},
  {id:'jacket',name:'Leather Jacket',price:140,fx:{charm:2,swagger:2},slot:'jacket',d:'Smells like a motorcycle.'},
  ];
 const IT=id=>ITEMS.find(i=>i.id===id)||{fx:{},slot:'x'};
-const SLOTN={hat:'Hat',eyes:'Eyes',top:'Top',jacket:'Jacket',hands:'Hands',belt:'Belt',pants:'Bottom',feet:'Boots',pocket:'Pocket'};
+const SLOTN={hat:'Hat',eyes:'Eyes',nose:'Nose',nips:'Nipples',chest:'Chest Ink',ink:'Body Ink',top:'Top',jacket:'Jacket',hands:'Hands',belt:'Belt',pants:'Bottom',feet:'Boots',pocket:'Pocket'};
 const SLOTO=Object.keys(SLOTN);
 const SKINS=['#f1c9a5','#d9a27a','#b87a52','#8a5636','#5a3622'];
 const HAIRS=['#1a1310','#4a2f1d','#d8b25a','#a8461f','#9a9a9a'];
@@ -449,6 +453,16 @@ const NPCS=[
   talk:[['Now THAT\'S a line.','You\'ve got the swagger. Most guys fake it.','Ride with me sometime.'],['Club Motor CyXle. Tonight.','Ruff Haus first though. Gus pours heavy.']],
   brush:['Nah.','Get off my curb.','You\'re blocking my light.'],pol:['MARCO & THE BIKE','MARCO — CHROME','MARCO — OPEN ROAD']},
  // ROOM 2 — RUFF HAUS
+ {id:'pierce',room:1,name:'Pierce',title:'Punk',pos:[-4.6,9],ry:1.2,likes:[],dcAdj:0,
+  look:{septum:true,tats:true,nips:true,muscle:.55,weight:.2,skin:SKINS[0],hair:HAIRS[0],style:'short',pants:'#1d1f26',bigboots:true,harness:true},
+  amb:['What?','Got a light?','This street used to be cool.','Metal on metal, baby.','Nice face. Needs a ring.'],
+  talk:[['Okay. You get it.','Most guys flinch at the steel.','You\'re not most guys.'],['Back again?','Told you. Metal looks good on you.']],
+  brush:['Pass.','Boring.','Come back with some steel.'],pol:['PIERCE — STEEL','PIERCE — UP CLOSE','PIERCE — NO FLINCH']},
+ {id:'inky',room:1,name:'Inky',title:'Tattooed man',pos:[4.8,-.5],ry:-1.3,likes:[],dcAdj:0,
+  look:{tats:true,chest:true,muscle:.85,weight:.5,skin:SKINS[1],hair:HAIRS[4],style:'bald',stache:true,beard:true,pants:'#2f3a4c',bigboots:true},
+  amb:['Every one of these has a story.','Blank skin makes me sad.','Two hundred hours in the chair.','Ask me about the snake. Actually don\'t.'],
+  talk:[['Look at you. A canvas with a pulse.','I respect a man who commits.','Head to toe. That\'s the only way.'],['My favorite customer.','You keep wearing it proud.']],
+  brush:['Blank.','Come back covered.','Not interested in a blank page.'],pol:['INKY — FRONT','INKY — THE BACK PIECE','INKY — SLEEVES']},
  {id:'buck',room:2,name:'Buck',title:'Go-go dancer',pos:[-3.2,-5.4],y:.42,ry:.4,likes:['charm','stamina'],dcAdj:0,range:3.4,anim:'dance',
   keys:['dance','music','move','night','watch','show','beat','all'],
   look:{hat:'muir',briefs:true,muscle:.85,weight:.15,skin:SKINS[0],hair:HAIRS[3],stache:false,bigboots:true},
@@ -474,6 +488,16 @@ const NPCS=[
   talk:[['That was honest. I respect it.','Most guys in here are a costume.','You\'re not.'],['The Sheriff\'s just a man with a good hat.','Don\'t let him rattle you.']],
   brush:['Hm.','Try again. Mean it this time.','No.'],pol:['ISAIAH — QUIET','ISAIAH BY THE WALL','ISAIAH — FOR REAL']},
  // ROOM 3 — THE TUNNEL
+ {id:'rico',room:2,name:'Rico',title:'Ink lover',pos:[-4.5,1.5],ry:1.57,likes:[],dcAdj:0,
+  look:{chest:true,muscle:.9,weight:.35,skin:SKINS[3],hair:HAIRS[0],stache:true,pants:'#3d5c8c',buckle:true},
+  amb:['You like the chest piece?','Took nine hours.','Real ink only.','Show me yours.'],
+  talk:[['Now that is a chest.','You sat for that? Respect.','We match, kind of.'],['Hey, ink brother.','Still looks fresh.']],
+  brush:['Nah.','Come back with some ink.','Not my type.'],pol:['RICO — THE CHEST PIECE','RICO — SHIRT OFF','RICO — AT THE BAR']},
+ {id:'lars',room:3,name:'Lars',title:'Steam room regular',pos:[1.4,2],ry:-.5,likes:[],dcAdj:0,
+  look:{towel:true,nips:true,muscle:.75,weight:.3,skin:SKINS[0],hair:HAIRS[2],beard:true},
+  amb:['Hot one tonight.','Steam\'s good for the skin.','I like a little shine.','Rings stay in. Always.'],
+  talk:[['Ooh. Shiny.','I knew you had good taste.','Stay a while.'],['Back for more steam?','Looking good, shiny.']],
+  brush:['Too plain.','Nothing shiny about you.','Maybe next time.'],pol:['LARS — STEAM','LARS — SHINE','LARS — TOWEL TIME']},
  {id:'tony',room:3,name:'Towel Tony',title:'Regular',pos:[-1.3,7],ry:.5,likes:['charm','stamina'],dcAdj:0,
   keys:['steam','heat','relax','slow','warm','night','towel','sweat'],
   look:{towel:true,muscle:.45,weight:.65,skin:SKINS[1],hair:HAIRS[1],stache:true},
@@ -507,9 +531,14 @@ const PUZ={
  isaiah:{q:"...",right:"I'll be honest with you. I'm nervous.",wrong:["Smile! You look bored.", "I'm the most interesting guy in here."],words:['honest'],wear:['cowboy'],hintBy:'chet',hint:'Isaiah melts for a cowboy hat. Or tell him you\'re honest.'},
  tony:{q:"First time in the steam, sweetie?",right:"Just here to relax.",wrong:["It's so humid in here.", "Is it always this crowded?"],words:['relax'],wear:['buckle'],hintBy:'doc',hint:'Tony loves a brass buckle. Or tell him to relax.'},
  doc:{q:"Hm. Another one.",right:"Can I ask you a question, Doc?",wrong:["I already know everything.", "You look old."],words:['question'],wear:['shades'],hintBy:'sheriff',hint:'Doc trusts a man in shades. Or ask him a question.'},
+ pierce:{q:"What're you staring at?",right:"Your piercings. I'm into metal.",wrong:["Doesn't that hurt?","My mom would kill me."],words:['metal'],wear:['septum'],hintBy:'vinnie',hint:'Pierce? Get a septum ring. Or tell him you\'re into metal.'},
+ inky:{q:"Nice skin. Shame it's so blank.",right:"Give it time. I want to be covered.",wrong:["Tattoos are trashy.","I'm scared of needles."],words:['covered'],wear:['tats'],hintBy:'sal',hint:'Inky only talks to guys covered in ink. Full body tattoos. Or tell him you want to be covered.'},
+ rico:{q:"You like what you see?",right:"That ink is art. Who did your chest?",wrong:["Is that a sticker?","I'd never get a tattoo."],words:['art'],wear:['chestpiece'],hintBy:'gus',hint:'Rico\'s all about the ink. Get a chest piece. Or tell him his tattoos are art.'},
+ lars:{q:"Hot in here, huh?",right:"Hot enough to show off a little shine.",wrong:["I'm keeping my towel on tight.","Is there a cold room?"],words:['shine'],wear:['nipples'],hintBy:'tony',hint:'Lars notices nipple rings first. Or tell him you\'ve got some shine.'},
  sheriff:{q:"Say your piece.",right:"I'm working class. Boots and brass.",wrong:["Nice hat. Is it real?", "I'm just a tourist."],words:['working class'],wear:['muir'],hintBy:'tony',hint:'The Sheriff? Wear a Muir cap. Or tell him you\'re working class.'}
 };
-const HINTER={};for(const [id,p] of Object.entries(PUZ))HINTER[p.hintBy]=id;
+const HINTER={};for(const [id,p] of Object.entries(PUZ))(HINTER[p.hintBy]=HINTER[p.hintBy]||[]).push(id);
+function hintOf(id){const l=HINTER[id]||[];return l.find(t=>!solved(t))||null;}
 function solved(id){const p=PUZ[id];if(!p)return false;const d=NPCS.find(x=>x.id===id);return (d&&d.pol.every((_,i)=>S.album[id+'_'+i]))||p.wear.some(wearing);}
 function heardHint(targetId){if(!S.heard)S.heard={};if(!S.heard[targetId]){S.heard[targetId]=PUZ[targetId].hint;save();}}
 const TOTAL_POLS=NPCS.reduce((a,n)=>a+n.pol.length,0);
@@ -634,6 +663,26 @@ function setExpr(g,e){if(!g||!g.P||!g.P.mouth)return;g.expr=e;const P=g.P;
  P.brows.forEach(b=>{const s=b.userData.s;b.rotation.z=e==='stand'?s*.38:e==='sad'?-s*.32:0;b.position.y=e==='happy'||e==='love'?.064:e==='stand'?.052:.058;});
  portDirty=true;}
 let portDirty=false;
+let TATTEX=null,CHESTTEX=null;
+function tatTex(){if(TATTEX)return TATTEX;TATTEX=ctex(512,512,(x,w,h)=>{x.fillStyle='#fff';x.fillRect(0,0,w,h);const ink='rgba(22,30,58,.9)';x.strokeStyle=ink;x.fillStyle=ink;x.lineCap='round';x.lineJoin='round';
+ let sd=7;const r=()=>{sd=(sd*9301+49297)%233280;return sd/233280;};
+ const star=(cx,cy,R)=>{x.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?R*.42:R;x.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}x.closePath();x.lineWidth=4;x.stroke();};
+ const heart=(cx,cy,R)=>{x.beginPath();x.moveTo(cx,cy+R*.8);x.bezierCurveTo(cx-R*1.4,cy-R*.2,cx-R*.6,cy-R*1.2,cx,cy-R*.4);x.bezierCurveTo(cx+R*.6,cy-R*1.2,cx+R*1.4,cy-R*.2,cx,cy+R*.8);x.fill();};
+ const rose=(cx,cy,R)=>{x.lineWidth=4;for(let i=0;i<4;i++){x.beginPath();x.arc(cx,cy,R*(1-i*.24),i,i+4.6);x.stroke();}x.beginPath();x.moveTo(cx-R,cy+R*.6);x.quadraticCurveTo(cx-R*1.8,cy+R*.2,cx-R*1.5,cy-R*.4);x.stroke();};
+ const swirl=(cx,cy,R)=>{x.lineWidth=9;x.beginPath();for(let t=0;t<9;t+=.2){const rr=R*(1-t/10);x.lineTo(cx+Math.cos(t)*rr,cy+Math.sin(t)*rr);}x.stroke();};
+ const dagger=(cx,cy,R)=>{x.lineWidth=5;x.beginPath();x.moveTo(cx,cy-R);x.lineTo(cx,cy+R);x.stroke();x.beginPath();x.moveTo(cx-R*.4,cy-R*.35);x.lineTo(cx+R*.4,cy-R*.35);x.stroke();x.beginPath();x.moveTo(cx-6,cy-R*.3);x.lineTo(cx,cy+R*1.15);x.lineTo(cx+6,cy-R*.3);x.fill();};
+ const swallow=(cx,cy,R)=>{x.beginPath();x.moveTo(cx-R,cy-R*.3);x.quadraticCurveTo(cx,cy+R*.2,cx+R,cy-R*.3);x.quadraticCurveTo(cx+R*.2,cy+R*.1,cx+R*.3,cy+R*.7);x.lineTo(cx,cy+R*.35);x.lineTo(cx-R*.3,cy+R*.7);x.quadraticCurveTo(cx-R*.2,cy+R*.1,cx-R,cy-R*.3);x.fill();};
+ const F=[star,heart,rose,swirl,dagger,swallow];
+ for(let i=0;i<46;i++){const cx=r()*w,cy=r()*h,R=26+r()*30;for(const ox of [-w,0,w])for(const oy of [-h,0,h])F[i%F.length](cx+ox,cy+oy,R);}
+ x.lineWidth=3;for(let i=0;i<14;i++){x.beginPath();const y=r()*h;x.moveTo(0,y);for(let X=0;X<=w;X+=16)x.lineTo(X,y+Math.sin(X/30+i)*8);x.stroke();}
+},1,1);return TATTEX;}
+function chestTex(){if(CHESTTEX)return CHESTTEX;CHESTTEX=ctex(512,320,(x,w,h)=>{x.clearRect(0,0,w,h);const ink='rgba(22,30,58,.92)';x.fillStyle=ink;x.strokeStyle=ink;x.lineJoin='round';x.lineCap='round';
+ for(const s of [-1,1]){x.save();x.translate(w/2,h*.46);x.scale(s,1);for(let i=0;i<6;i++){x.beginPath();x.moveTo(40,-10+i*4);x.quadraticCurveTo(120+i*12,-80+i*22,230-i*14,-60+i*30);x.quadraticCurveTo(140,-20+i*12,40,10+i*5);x.fill();}x.restore();}
+ x.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?28:66;x.lineTo(w/2+Math.cos(a)*rr,h*.46+Math.sin(a)*rr);}x.closePath();x.fill();
+ x.fillStyle='rgba(180,30,40,.85)';x.beginPath();x.arc(w/2,h*.46,16,0,7);x.fill();
+ x.fillStyle=ink;x.beginPath();x.moveTo(w*.22,h*.78);x.quadraticCurveTo(w/2,h*.7,w*.78,h*.78);x.lineTo(w*.74,h*.92);x.quadraticCurveTo(w/2,h*.84,w*.26,h*.92);x.closePath();x.fill();
+ x.fillStyle='#e9d9c4';x.font='italic 34px Impact, Anton, sans-serif';x.textAlign='center';x.fillText('JACKD',w/2,h*.86);},1,1);return CHESTTEX;}
+
 function makeGuy(o){
  o=Object.assign({skin:SKINS[1],hair:HAIRS[0],weight:.4,muscle:.7,height:.5,stache:false,beard:false,top:'none',topColor:'#eee',pants:'#3d5c8c',hat:null,hatColor:'#f2c21a',glasses:false,harness:false,jacket:false,gloves:false,buckle:false,bigboots:false,style:'short',towel:false,briefs:false,sil:false,eyeGlow:null},o);
  const sil=o.sil, S_=c=>sil?M('#06060a'):M(c);
@@ -644,7 +693,8 @@ function makeGuy(o){
  const P={};
  const tx=1+.35*m+.38*w, tz=.78+.15*m+.5*w, hx=.2+.03*m+.09*w, hz=.15+.07*w;
  const legR=.085+.03*m+.045*w;
- const legM=(o.towel||o.briefs)?skin:pantsM;
+ const inkM=(o.tats&&!sil)?M(o.skin,{map:tatTex()}):skin;
+ const legM=(o.towel||o.briefs)?inkM:pantsM;
  const mkLeg=s=>{const g=new THREE.Group();g.position.set(s*(.1+.035*w),.95,0);
   const th=capsule(legR,.3,legM);th.position.y=-.24;g.add(th);
   const sh=capsule(legR*.84,.3,legM);sh.position.y=-.58;g.add(sh);
@@ -655,25 +705,29 @@ function makeGuy(o){
  const hips=sph(1,hipM,0,1.0,0);hips.scale.set(hx,.15,hz);body.add(hips);
  if(o.towel){const t=cyl(hx+.05,hx+.1,.44,S_('#f4f4f0'),0,.86,0);t.scale.z=(hz+.07)/(hx+.07);body.add(t);}
  if(!o.towel&&!o.briefs){const b=cyl(hx+.012,hx+.012,.065,black,0,1.1,0);b.scale.z=(hz+.012)/(hx+.012);body.add(b);body.add(box(.07,.05,.02,o.buckle?brass:metal,0,1.1,hz+.02));}
- const torsoM=(o.top==='tank'||o.top==='shirt')?S_(o.topColor):skin;
+ const bare=!(o.top==='tank'||o.top==='shirt'),torsoM=bare?inkM:S_(o.topColor);
  const torso=capsule(.2,.28,torsoM);torso.position.y=1.4;torso.scale.set(tx,1,tz);body.add(torso);P.torso=torso;
  const fz=.2*tz;
  for(const s of [-1,1]){const p=sph(1,torsoM,s*.095*tx,1.5,fz-.04);p.scale.set(.1+.03*m,.075+.02*m,.05+.05*m);body.add(p);}
  if(w>.3){const b=sph(1,torsoM,0,1.24,fz-.05);b.scale.set(.15+.1*w,.14+.08*w,.06+.14*w);body.add(b);}
- const armR=.058+.035*m+.025*w, sleeve=o.jacket?leather:(o.top==='shirt'?S_(o.topColor):skin);
+ const armR=.058+.035*m+.025*w, sleeve=o.jacket?leather:(o.top==='shirt'?S_(o.topColor):inkM);
  const mkArm=s=>{const g=new THREE.Group();g.position.set(s*(.2*tx+.03),1.6,0);
   g.add(sph(armR*1.45,sleeve,0,0,0));
   const up=capsule(armR*(o.jacket?1.15:1),.22,sleeve);up.position.y=-.2;g.add(up);
-  const fo=capsule(armR*.86*(o.jacket?1.12:1),.2,o.jacket?leather:skin);fo.position.y=-.5;g.add(fo);
+  const fo=capsule(armR*.86*(o.jacket?1.12:1),.2,o.jacket?leather:inkM);fo.position.y=-.5;g.add(fo);
   const hand=sph(.055+.012*m,o.gloves?black:skin,0,-.69,0);g.add(hand);g.userData.hand=hand;
   body.add(g);return g;};
  P.armL=mkArm(1);P.armR=mkArm(-1);
  const armOut=.07+.13*w+.08*m;
- body.add(cyl(.075+.03*m,.09+.045*m,.16,skin,0,1.76,0));
+ body.add(cyl(.075+.03*m,.09+.045*m,.16,inkM,0,1.76,0));
+ if(bare&&!sil){const pf=fz-.04+.05+.05*m;
+  if(o.chest){const cp=new THREE.Mesh(new THREE.PlaneGeometry(.3*tx+.12,.2+.03*m),new THREE.MeshStandardMaterial({map:chestTex(),transparent:true,roughness:.7,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2}));cp.position.set(0,1.47,pf+.006);body.add(cp);}
+  if(o.nips)for(const s of [-1,1]){body.add(mesh(new THREE.TorusGeometry(.018,.005,6,14),metal,s*.095*tx,1.455,pf+.004,false));body.add(sph(.008,metal,s*.095*tx,1.473,pf+.004));}}
  const head=new THREE.Group();head.position.set(0,1.92,0);body.add(head);P.head=head;
  const sk=sph(.12,skin,0,0,0);sk.scale.set(1,1.12,1.08);head.add(sk);
  P.jaw=box(.17,.09,.15,skin,0,-.08,.02);head.add(P.jaw);
  head.add(box(.03,.05,.04,skin,0,-.01,.13));
+ if(o.septum&&!sil)head.add(mesh(new THREE.TorusGeometry(.015,.0042,6,16),metal,0,-.046,.148,false));
  for(const s of [-1,1]){const e=sph(.025,skin,s*.122,0,0);e.scale.set(.6,1,1);head.add(e);}
  const eyeM=o.eyeGlow?new THREE.MeshBasicMaterial({color:o.eyeGlow}):M('#0d0d0d');
  P.eyes=[];P.brows=[];P.hearts=[];
@@ -861,7 +915,7 @@ function buildGlbBar(){const k=BK,g=new THREE.Group();BAR.scale.setScalar(k);BAR
   boxes:[Bx(2.01,2.95,-4.25,-0.96),Bx(1.81,2.29,-3.61,-1.42),Bx(-2.79,-1.32,-.55,2.05),Bx(2.81,4.02,-5.44,-3.38),Bx(3.44,3.85,-5.8,-5.37),Bx(3.18,3.92,.57,1.33),Bx(3.24,4.23,1.95,2.85),Bx(2.83,3.85,4.81,5.83),Bx(-3.93,-3.0,3.39,4.17),Bx(-4.04,-3.44,4.25,4.85),Bx(-.06,.54,-5.95,-5.35),Bx(1.34,1.93,5.12,5.71),Bx(.64,1.24,-5.92,-5.32)],
   door:dr,bg:0x0c1030,fog:[0x0c1030,16*k,40*k],hemi:[0xc8d0ff,0x2a1a20,.55],sun:[0xffe0d0,.45],start:[0.69*k,4.75*k],stage:{x:-2.48*k,z:-4.92*k},pool:{x:-2.05*k,z:.75*k,r:2.3*k},juke:{x:3.73*k,z:2.4*k,r:1.9*k},env:barEnv,camMaxY:3.0*k+.3,
   crowd:[[2.35,3.85],[3.45,3.85],[2.9,3.3],[2.9,4.4]].map(([x,z])=>({x:x*k,z:z*k,ry:Math.atan2(2.9-x,3.85-z)})),
-  npcPos:{buck:N(-1.92,-3.74,.32,.45),gus:N(3.53,-3.08,0,-1.57),chet:N(-2.24,3.03,0,Math.PI),isaiah:N(2.44,-0.33,0,-1.57)}};}
+  npcPos:{rico:N(-3.35,-1.4,0,Math.PI/2),buck:N(-1.92,-3.74,.32,.45),gus:N(3.53,-3.08,0,-1.57),chet:N(-2.24,3.03,0,Math.PI),isaiah:N(2.44,-0.33,0,-1.57)}};}
 const SIL_LINES=['Door\'s open.','...','Lost?','Keep walking, cowboy.','Took a wrong turn?','Mm.','Boots off in here.'];
 
 /* the guys in the corner: they're with their friends and not interested */
@@ -879,7 +933,7 @@ const ringT=mesh(new THREE.RingGeometry(.5,.62,32),new THREE.MeshBasicMaterial({
 
 function playerLook(){const b=S.body,ow=wearing,cr=mode!=='game';const hat=S.worn.find(id=>IT(id).slot==='hat')||null;
  return {skin:b.skin,hair:b.hair,weight:b.weight,muscle:b.muscle,height:b.height,style:b.style,stache:b.face==='stache'||b.face==='both',beard:b.face==='beard'||b.face==='both',
-  top:cr?(b.outfit==='tank'?'tank':b.outfit==='suspenders'?'suspenders':'none'):(ow('tank')?'tank':ow('suspenders')?'suspenders':'none'),topColor:'#f0ede4',pants:'#3d5c8c',towel:!cr&&ow('towel'),hat:cr?null:hat,hatColor:'#f2c21a',glasses:ow('shades'),harness:ow('harness'),jacket:ow('jacket'),gloves:ow('gloves'),buckle:ow('buckle'),bigboots:ow('boots')};}
+  top:cr?(b.outfit==='tank'?'tank':b.outfit==='suspenders'?'suspenders':'none'):(ow('tank')?'tank':ow('suspenders')?'suspenders':'none'),topColor:'#f0ede4',pants:'#3d5c8c',towel:!cr&&ow('towel'),hat:cr?null:hat,hatColor:'#f2c21a',glasses:ow('shades'),harness:ow('harness'),jacket:ow('jacket'),gloves:ow('gloves'),buckle:ow('buckle'),bigboots:ow('boots'),tats:!cr&&ow('tats'),chest:!cr&&ow('chestpiece'),septum:!cr&&ow('septum'),nips:!cr&&ow('nipples')};}
 function makeMug(){const g=new THREE.Group();g.add(cyl(.06,.055,.16,M('#d9a646',{transparent:true,opacity:.88,roughness:.1}),0,0,0));g.add(cyl(.062,.062,.04,M('#fffaf0',{roughness:.9}),0,.09,0));const h=mesh(new THREE.TorusGeometry(.035,.01,6,12),M('#d9a646',{transparent:true,opacity:.88}),.065,0,0);h.rotation.y=Math.PI/2;g.add(h);g.position.set(0,-.04,.05);return g;}
 function setPlayerBeer(){if(!player)return;const hand=player.P.armR.userData.hand;if(player.mug){hand.remove(player.mug);player.mug=null;}player.holding=!!S.beer;if(S.beer){player.mug=makeMug();hand.add(player.mug);}}
 function buildPlayer(){const old=player;const g=makeGuy(playerLook());g.voice=105;if(old){g.root.position.copy(old.root.position);g.root.rotation.y=old.root.rotation.y;scene.remove(old.root);}player=g;scene.add(g.root);g.root.add(ringP);setPlayerBeer();}
@@ -1009,7 +1063,7 @@ async function encounter(n){
   flyPols(n.g,give.map(i=>({img:S.album[d.id+'_'+i].img,cap:d.pol[i]})));
   await sleep(3000);n.g.mode=prevMode==='dance'?'idle':prevMode;
   if(!S.paid)S.paid={};if(!S.paid[d.id]){S.paid[d.id]=1;earn(25*room,n.g);}
-  const hk=HINTER[d.id];if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint,'happy')]);}
+  const hk=hintOf(d.id);if(hk&&!solved(hk)){encSkip=false;heardHint(hk);await dialog([NP(PUZ[hk].hint,'happy')]);}
   if(d.id==='marco'&&R&&R.bike)await marcoRide(n);
   setExpr(n.g,'love');SFX.quest();const yes=(await choose(n.g,d.name,['♥ Kiss him','Walk away'],d.name+' is into you. ♥',false))===0;$('#dlg').classList.remove('on');
   if(yes)await kiss(n);else{encSkip=false;await dialog([NP(pick(['Oh. Okay then.','Your loss, cowboy.','Fine. Whatever.','Huh. Alright.']),'sad')]);}
@@ -1258,7 +1312,7 @@ function step(dt){
  if(target!==step.lt){if(tagEl){tagEl.remove();tagEl=null;}step.lt=target;}
  if(target&&!bubs.get(target.g)){if(!tagEl){tagEl=document.createElement('div');tagEl.className='bub tag';$('#bubs').appendChild(tagEl);}tagEl.textContent=target.def.name+(target.cd>T?' · wait':'');const b={el:tagEl,g:target.g};posBub(b);}else if(tagEl){tagEl.remove();tagEl=null;}
  ambT-=dt;if(ambT<=0&&!busy&&!dlgState&&performance.now()>impUntil){ambT=rnd(.9,2);const pool=npcs.filter(n=>!bubs.get(n.g)&&n.turnTo==null).map(n=>({g:n.g,lines:(n.def.shadow&&!wearing('towel'))?['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']:n.def.amb})).concat(sils.map(s=>({g:s.g,lines:wearing('towel')?SIL_LINES:['Towel, cowboy.','Jeans? In here?','No towel, no talk.','Somebody\'s overdressed.']})));
-  const near=pool.filter(o=>o.g.root.position.distanceTo(p)<16);if(near.length){const o=pick(near);if(!bubs.get(o.g)){const far=o.g.root.position.distanceTo(p)>7;const nn=npcs.find(x=>x.g===o.g),hk=nn&&HINTER[nn.def.id];
+  const near=pool.filter(o=>o.g.root.position.distanceTo(p)<16);if(near.length){const o=pick(near);if(!bubs.get(o.g)){const far=o.g.root.position.distanceTo(p)>7;const nn=npcs.find(x=>x.g===o.g),hk=nn&&hintOf(nn.def.id);
   if(hk&&!far&&!solved(hk)&&Math.random()<.35){const ht=PUZ[hk].hint;say(o.g,ht,5600,'imp');heardHint(hk);SFX.grumble(o.g,Math.round(ht.length/5),.8);o.g.talkT=1.4;}else{const ln=pick(o.lines);say(o.g,ln,rnd(2400,3400),far?'far':'');if(!far){SFX.grumble(o.g,Math.max(2,Math.round(ln.length/6)),.45);o.g.talkT=.8;}}}}}
  if(R.stage&&!qd()[0]&&S.room===2){if(Math.hypot(p.x-R.stage.x,p.z-R.stage.z)<4.4){watchT+=dt;if(Math.floor(watchT)!==Math.floor(watchT-dt)&&watchT<5)toast('WATCHING…',Math.ceil(5-watchT)+'s');if(watchT>=5){watchT=-999;qEvent({type:'watch'});}}}
  if(R.door&&R.unlocked&&!dooring&&Math.hypot(p.x-R.door.x,p.z-R.door.z)<1.2)goRoom(S.room+1);
