@@ -328,8 +328,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:36px;border-radius:10px;ba
 <div class="field"><b>ROOMS</b><div class="chips" id="roomPick"></div><p id="barStat" style="margin:0;font-size:14px;color:#c9d6ff;overflow-wrap:anywhere"></p><button class="chip" id="barRetry" hidden>Retry loading the Blender bar</button></div>
 <button class="btn dark" id="optNew" style="font-size:18px">Start a new game</button></div></div>
 <div class="modal" id="mJuke"><div class="card"><button class="x" data-close>✕</button><h2 class="imp">Jukebox</h2><p id="jkNow">Pick a song.</p><ul class="ql" id="jkList"></ul>
-<label class="btn grn" style="text-align:center">Add songs from this device<input type="file" accept="audio/*" multiple id="jkFile" hidden></label>
-<p style="font-size:13px">Songs you add stay on this device only. They aren't uploaded anywhere.</p><button class="btn dark" id="jkStop">Stop the music</button></div></div>
+<button class="btn dark" id="jkStop">Stop the music</button></div></div>
 <div class="modal" id="mPool"><div class="card" style="width:min(940px,100%);padding:14px"><button class="x" data-close>✕</button><h2 class="imp" style="margin:0 0 6px">Pool</h2>
 <p id="plInfo" style="margin:0 0 8px">Drag back from the cue ball and let go to shoot. Sink all 15.</p><div style="position:relative;width:100%;aspect-ratio:2/1.08;touch-action:none"><canvas id="plCan" width="900" height="486" style="width:100%;height:100%;display:block;border-radius:14px;touch-action:none"></canvas></div>
 <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"><button class="btn dark" id="plNew" style="font-size:18px;padding:8px 16px">New rack</button></div></div></div>
@@ -591,20 +590,42 @@ const SFX={
   gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(.32*vol,t+.015);gn.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(bp);bp.connect(lp);lp.connect(gn);gn.connect(sfx);o.start(t);o.stop(t+d+.03);t+=d+rnd(.015,.05);if(Math.random()<.15)t+=.08;}},
  door(){const t=now();[262,330,392,523,659].forEach((f,i)=>tone(f,t+i*.1,.4,'square',.06));}
 };
-const Music={on:false,el:null,url:null,timer:null,next:0,step:0,
+const Music={on:false,el:null,url:null,timer:null,next:0,step:0,style:'house',
  start(){ac();this.on=true; if(this.url){ if(!this.el){this.el=new Audio(this.url);this.el.loop=true;this.el.volume=.7;} this.el.play().catch(()=>{}); } else this.synth(); updMusicBtn();},
  stop(){this.on=false; if(this.el) this.el.pause(); clearInterval(this.timer); this.timer=null; updMusicBtn();},
  setFile(url){const was=this.on; this.stop(); if(this.el){this.el.pause();this.el=null;} this.url=url; if(was||true) this.start();},
  synth(){const a=ac(); this.next=a.currentTime+.05; this.step=0; clearInterval(this.timer); this.timer=setInterval(()=>this.sched(),25);},
- sched(){const spb=60/124/4; while(this.next<AC.currentTime+.12){this.play(this.step,this.next); this.next+=spb; this.step=(this.step+1)%64;}},
+ sched(){const spb=60/({house:124,glam:118,slow:84}[this.style]||124)/4; while(this.next<AC.currentTime+.12){this.play(this.step,this.next); this.next+=spb; this.step=(this.step+1)%64;}},
  play(s,t){ const B=mbus;
+  if(this.style==='glam')return this.glam(s,t,B);if(this.style==='slow')return this.slow(s,t,B);
   if(s%4===0){tone(140,t,.22,'sine',.5,42,B);}
   if(s%4===2) noise(t,.05,.12,7000,B);
   if(s%8===4) noise(t,.12,.22,1500,B);
   const bass=[40,0,40,40,43,0,40,0,38,0,38,38,35,0,38,0]; const n=bass[s%16]+(s>=32?-2:0);
   if(bass[s%16]) tone(440*2**((n-69)/12),t,.14,'sawtooth',.11,null,B);
   if(s%16===6||s%16===14){ const root=s>=32?62:64; [0,3,7].forEach(iv=>tone(440*2**((root+iv-69)/12),t,.18,'square',.03,null,B)); }
- }};
+ },
+ /* GLAM STOMP: stomp-clap, boogie bass, fuzzy power chords */
+ glam(s,t,B){const sw=(s%2)?.03:0;t+=sw;const q=s%16;
+  if(q===0||q===8||q===10){tone(120,t,.25,'sine',.55,40,B);}
+  if(q===4||q===12){noise(t,.16,.3,1800,B);noise(t+.012,.12,.2,2600,B);}
+  if(s%2===0)noise(t,.03,.07,8000,B);
+  const prog=[40,40,45,40,47,45,40,40],root=prog[Math.floor(s/8)%8],bl=[0,0,4,7,9,7,4,0];
+  if(s%2===0)tone(440*2**((root-12+bl[(s/2)%8|0]-69)/12),t,.16,'sawtooth',.12,null,B);
+  if(q===0||q===3||q===6||q===10){[0,7,12].forEach(iv=>tone(440*2**((root+12+iv-69)/12),t,q===0?.3:.14,'square',.035,null,B));}
+  if(q===14&&s%32===30){[0,3,5].forEach((iv,i)=>tone(440*2**((root+24+iv-69)/12),t+i*.07,.12,'square',.03,null,B));}},
+ /* SLOW JAM: lazy kick-snare, walking bass, warm organ */
+ slow(s,t,B){const q=s%16;
+  if(q===0||q===10){tone(110,t,.32,'sine',.5,38,B);}
+  if(q===4||q===12){noise(t,.25,.22,1300,B);}
+  if(s%2===0)noise(t,.04,.05,9000,B);
+  const prog=[45,45,41,43],root=prog[Math.floor(s/16)%4],walk=[0,0,7,0,5,0,3,7];
+  if(s%2===0)tone(440*2**((root-12+walk[(s/2)%8|0]-69)/12),t,.24,'triangle',.18,null,B);
+  if(q===0)[0,3,7,10].forEach(iv=>tone(440*2**((root+12+iv-69)/12),t,1.7,'triangle',.022,null,B));
+  if(q===6||q===14)[0,7].forEach(iv=>tone(440*2**((root+24+iv-69)/12),t,.2,'sine',.025,null,B));}
+ };
+const TRACKS=[{k:'house',n:'Ruff Haus Beat',d:'Four on the floor. Club night.'},{k:'glam',n:'Glam Stomp',d:'Boots, claps and fuzz guitar.'},{k:'slow',n:'Slow Jam',d:'Low lights. Close dancing.'}];
+function playTrack(k){Music.style=k;Music.url=null;Music.setFile(null);}
 function updMusicBtn(){ $('#bMusic').classList.toggle('off',!Music.on); $('#musToggle').textContent=Music.on?'Music off':'Music on'; $('#musNote').textContent=Music.url?'Playing your track on loop.':'Playing a placeholder club beat. Load your "Club Motorcycle" track and it will loop here instead (it\'s remembered in this browser).'; }
 function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('jackd',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function saveSong(b){try{const db=await idb();db.transaction('f','readwrite').objectStore('f').put(b,'song');}catch(e){}}
@@ -1237,18 +1258,12 @@ $('#newGame').onclick=()=>{try{localStorage.removeItem('jackd_save')}catch(e){}l
 /* ================= JUKEBOX ================= */
 const POOL_ICON='<svg viewBox="0 0 36 36" width="38" height="38"><circle cx="18" cy="18" r="14" fill="#111" stroke="#fff" stroke-width="2"/><circle cx="18" cy="15" r="6.5" fill="#fff"/><text x="18" y="19" text-anchor="middle" font-size="9" font-weight="900" font-family="Archivo" fill="#111">8</text></svg>';
 const JUKE_ICON='<svg viewBox="0 0 36 36" width="36" height="36"><path d="M10 21V8l15-3v13" stroke="#fff" stroke-width="2.6" fill="none"/><circle cx="7.5" cy="21" r="3.6" fill="#f5c518"/><circle cx="22.5" cy="18" r="3.6" fill="#f5c518"/><rect x="6" y="26" width="24" height="5" rx="2" fill="#ff8a00"/></svg>';
-let jkTracks=[],jkCur=null;
-async function jkLoad(){try{const db=await idb();jkTracks=await new Promise(r=>{const q=db.transaction('f').objectStore('f').get('tracks');q.onsuccess=()=>r(q.result||[]);q.onerror=()=>r([]);});}catch(e){jkTracks=[];}}
-async function jkSave(){try{const db=await idb();db.transaction('f','readwrite').objectStore('f').put(jkTracks,'tracks');}catch(e){}}
-function jkRender(){const L=[{k:'beat',n:'House beat (built in)'}];if(Music.url&&!jkTracks.length)L.push({k:'club',n:'Club Motorcycle'});jkTracks.forEach((t,i)=>L.push({k:'t'+i,n:t.name,i}));
- $('#jkList').innerHTML=L.map(t=>`<li class="jk ${jkCur===t.k?'on':''}" data-k="${t.k}"><span>♪ ${esc(t.n)}</span>${t.i!=null?`<button data-del="${t.i}" aria-label="Remove">✕</button>`:''}</li>`).join('');}
-$('#jkList').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){e.stopPropagation();jkTracks.splice(+d.dataset.del,1);jkSave();jkRender();return;}
- const li=e.target.closest('[data-k]');if(!li)return;const k=li.dataset.k;SFX.coin();jkCur=k;
- if(k==='beat'){Music.url=null;Music.setFile(null);}else if(k==='club'){Music.setFile(Music.url);}else{const t=jkTracks[+k.slice(1)];Music.setFile(URL.createObjectURL(t.blob));}
- $('#jkNow').textContent='Now playing: '+li.textContent.replace('♪','').replace('✕','').trim();jkRender();toast('JUKEBOX',$('#jkNow').textContent,true);});
-$('#jkFile').onchange=async e=>{for(const f of e.target.files)jkTracks.push({name:f.name.replace(/\.[^.]+$/,'').replace(/^\d+[_ -]*/,'').replace(/_/g,' '),blob:f});await jkSave();jkRender();e.target.value='';};
+let jkCur=null;
+function jkRender(){$('#jkList').innerHTML=TRACKS.map(t=>`<li class="jk ${jkCur===t.k&&Music.on?'on':''}" data-k="${t.k}"><span>♪ ${esc(t.n)}<br><small style="font-size:13px;opacity:.75">${esc(t.d)}</small></span></li>`).join('');}
+$('#jkList').addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(!li)return;const k=li.dataset.k,t=TRACKS.find(x=>x.k===k);SFX.coin();jkCur=k;playTrack(k);
+ $('#jkNow').textContent='Now playing: '+t.n;jkRender();toast('JUKEBOX',$('#jkNow').textContent,true);});
 $('#jkStop').onclick=()=>{Music.stop();jkCur=null;$('#jkNow').textContent='Music stopped.';jkRender();};
-async function openJuke(){await jkLoad();jkRender();openM('mJuke');SFX.click();}
+function openJuke(){jkCur=jkCur||(Music.url?null:Music.style);$('#jkNow').textContent=Music.on&&jkCur?'Now playing: '+TRACKS.find(x=>x.k===jkCur).n:'Pick a song.';jkRender();openM('mJuke');SFX.click();}
 
 /* ================= POOL ================= */
 const PL={W:900,H:486,R:11,cush:42,balls:[],shots:0,aim:null,moving:false,raf:0,done:false};
