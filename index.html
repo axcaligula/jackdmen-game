@@ -860,9 +860,18 @@ function buildGlbBar(){const k=BK,g=new THREE.Group();BAR.scale.setScalar(k);BAR
  return {g,glb:true,W:8*k,D:12*k,col:[C(-2.48,-4.92,2.02)],
   boxes:[Bx(2.01,2.95,-4.25,-0.96),Bx(1.81,2.29,-3.61,-1.42),Bx(-2.79,-1.32,-.55,2.05),Bx(2.81,4.02,-5.44,-3.38),Bx(3.44,3.85,-5.8,-5.37),Bx(3.18,3.92,.57,1.33),Bx(3.24,4.23,1.95,2.85),Bx(2.83,3.85,4.81,5.83),Bx(-3.93,-3.0,3.39,4.17),Bx(-4.04,-3.44,4.25,4.85),Bx(-.06,.54,-5.95,-5.35),Bx(1.34,1.93,5.12,5.71),Bx(.64,1.24,-5.92,-5.32)],
   door:dr,bg:0x0c1030,fog:[0x0c1030,16*k,40*k],hemi:[0xc8d0ff,0x2a1a20,.55],sun:[0xffe0d0,.45],start:[0.69*k,4.75*k],stage:{x:-2.48*k,z:-4.92*k},pool:{x:-2.05*k,z:.75*k,r:2.3*k},juke:{x:3.73*k,z:2.4*k,r:1.9*k},env:barEnv,camMaxY:3.0*k+.3,
+  crowd:[[2.35,3.85],[3.45,3.85],[2.9,3.3],[2.9,4.4]].map(([x,z])=>({x:x*k,z:z*k,ry:Math.atan2(2.9-x,3.85-z)})),
   npcPos:{buck:N(-1.92,-3.74,.32,.45),gus:N(3.53,-3.08,0,-1.57),chet:N(-2.24,3.03,0,Math.PI),isaiah:N(2.44,-0.33,0,-1.57)}};}
 const SIL_LINES=['Door\'s open.','...','Lost?','Keep walking, cowboy.','Took a wrong turn?','Mm.','Boots off in here.'];
 
+/* the guys in the corner: they're with their friends and not interested */
+const CROWD=[
+ {id:'duke',name:'Duke',title:'Regular',look:{top:'tank',topColor:'#2b2b2b',muscle:.7,weight:.55,skin:SKINS[2],hair:HAIRS[0],stache:true,beard:true,pants:'#2f3a4c'},mug:true},
+ {id:'bo',name:'Bo',title:'Regular',look:{hat:'cowboy',hatColor:'#6b4a2b',muscle:.5,weight:.7,skin:SKINS[0],hair:HAIRS[3],stache:true,pants:'#40618f'}},
+ {id:'clint',name:'Clint',title:'Regular',look:{jacket:true,muscle:.8,weight:.3,skin:SKINS[1],hair:HAIRS[1],beard:true,pants:'#1d1f26'},mug:true},
+ {id:'ray',name:'Ray',title:'Regular',look:{top:'suspenders',muscle:.6,weight:.45,skin:SKINS[3]||SKINS[0],hair:HAIRS[2],stache:true,pants:'#4b5568'}}];
+const CROWD_AMB=['Ha! No way.','Another round?','You still with that guy?','Told you, man.','Who\'s buying?','Same as last time.','Mm-hm.','That\'s what I said!','Hah!','Watch this guy.'];
+const CROWD_NO=['I\'m good.','I\'m here with my friends.','I\'m good, thanks.','Here with my friends, pal.'];
 const BUILD_BAR_OLD=BUILD[2];BUILD[2]=()=>BAR?buildGlbBar():BUILD_BAR_OLD();
 let player=null,npcs=[],sils=[];
 const ringP=mesh(new THREE.RingGeometry(.42,.56,32),new THREE.MeshBasicMaterial({color:0x6cff3a,transparent:true,opacity:.85,side:THREE.DoubleSide}),0,.03,0,false);ringP.rotation.x=-Math.PI/2;
@@ -885,6 +894,9 @@ function loadRoom(i){
   {let hsh=0;for(const ch of d.id)hsh=(hsh*31+ch.charCodeAt(0))%997;g.voice=62+hsh%70;}
   npcs.push({def:d,g,cd:0,ry:pry,dc:ROOMS[i].dc+(d.dcAdj||0)});
   R.col.push({x:px,z:pz,r:.5,npc:d.id});}
+ if(R.crowd)R.crowd.forEach((c,k_)=>{const d={...CROWD[k_],crowd:true,amb:CROWD_AMB,range:2.2};const g=makeGuy(d.look);g.root.position.set(c.x,0,c.z);g.root.rotation.y=c.ry;g.mode='idle';
+  if(d.mug){g.P.armR.userData.hand.add(makeMug());g.mode='hold';}scene.add(g.root);{let h=0;for(const ch of d.id)h=(h*31+ch.charCodeAt(0))%997;g.voice=62+h%70;}
+  npcs.push({def:d,g,cd:0,ry:c.ry,base:g.mode,dc:0});R.col.push({x:c.x,z:c.z,r:.42,npc:d.id});});
  if(false&&R.sil)for(const s of R.sil){const g=makeGuy({sil:true,eyeGlow:pick(['#5ad1ff','#ff3a3a','#ffd23a','#b06bff']),towel:Math.random()<.5,muscle:rnd(.4,1),weight:rnd(0,.6),style:pick(['short','bald']),hat:Math.random()<.3?'muir':null,height:rnd(.3,.9)});g.root.position.set(s.x,0,s.z);g.root.rotation.y=s.ry;g.mode=Math.random()<.5?'cross':'idle';scene.add(g.root);sils.push({g});R.col.push({x:s.x,z:s.z,r:.45});}
  if(i===3&&!S.owned.includes('towel')){S.owned.push('towel');setTimeout(()=>{toast('TOWEL HANDED OVER','Tap your guy and put it on. No towel, no talk.',true);SFX.kaching();},2200);}
  if(!player)buildPlayer();
@@ -961,6 +973,8 @@ function polIdx(d){for(let i=0;i<d.pol.length;i++)if(!S.album[d.id+'_'+i])return
 function faceTo(g,x,z){return Math.atan2(x-g.root.position.x,z-g.root.position.z);}
 async function encounter(n){
  if(busy)return;const d=n.def;
+ if(d.crowd){busy=true;encSkip=false;n.turnTo=faceTo(n.g,player.root.position.x,player.root.position.z);player.root.rotation.y=faceTo(player,n.g.root.position.x,n.g.root.position.z);
+  await dialog([{g:n.g,name:d.name,text:pick(CROWD_NO),expr:'stand'}]);n.turnTo=null;setTimeout(()=>setExpr(n.g,'neutral'),1500);busy=false;return;}
  if(S.room===3&&!wearing('towel')){setExpr(n.g,'stand');say(n.g,pick(['No towel, no service.','Jeans? In here? Towel on, cowboy.','House rules. Towel.','Come back in a towel.']),2600,'cold imp');SFX.grumble(n.g,5);n.g.talkT=.6;toast('TOWEL REQUIRED','Tap your guy and put on the towel');return;}
  if(n.cold>T||n.cd>T){setExpr(n.g,'stand');say(n.g,pick(['I said no.','Not now, pal.','Beat it.','Come back later.']),1800,'cold imp');SFX.grumble(n.g,3);n.g.talkT=.4;return;}
  busy=true;encSkip=false;ringT.visible=false;
@@ -1067,7 +1081,7 @@ function flyPol(g,img,cap){const el=document.createElement('div');el.className='
  requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.transition='all .7s cubic-bezier(.2,1.4,.4,1)';Object.assign(el.style,{left:'50%',top:'46%',transform:'translate(-50%,-50%) scale(1) rotate(-4deg)'});}));
  setTimeout(()=>{const r=$('#bAlbum').getBoundingClientRect();el.style.transition='all .6s ease-in';Object.assign(el.style,{left:r.left+r.width/2+'px',top:r.top+r.height/2+'px',transform:'translate(-50%,-50%) scale(.08) rotate(25deg)',opacity:'.4'});},2500);
  setTimeout(()=>el.remove(),3200);}
-function inspect(n){const d=n.def;SFX.click();
+function inspect(n){const d=n.def;if(d.crowd){SFX.click();say(n.g,pick(CROWD_NO),2000,'cold');SFX.grumble(n.g,3,.6);n.g.talkT=.5;return;}SFX.click();
  $('#insImg').src=snap(n.g,0);$('#insName').textContent=d.name;$('#insTitle').textContent=d.title;
  const h=(S.heard||{})[d.id],ok=solved(d.id);
  $('#insLikes').innerHTML=h?`<i>${esc(h)}</i>`:'<i>No clues yet. Listen to the other guys.</i>';
@@ -1233,7 +1247,7 @@ function step(dt){
  for(const n of npcs){const g=n.g,dx=p.x-g.root.position.x,dz=p.z-g.root.position.z,d=Math.hypot(dx,dz);
   if(d<(n.def.range||2.7)&&d<best){best=d;target=n;}
   if(n.cold&&n.cold<=T){n.cold=0;g.mode=n.base||'idle';setExpr(g,'neutral');}
-  const want=n.turnTo!=null?n.turnTo:n.cold>T?faceTo(g,p.x,p.z)+Math.PI:(d<5?faceTo(g,p.x,p.z):n.ry);g.root.rotation.y=angLerp(g.root.rotation.y,want,1-Math.exp(-dt*(n.turnTo!=null?8:2)));
+  const want=n.turnTo!=null?n.turnTo:n.cold>T?faceTo(g,p.x,p.z)+Math.PI:(d<5&&!n.def.crowd?faceTo(g,p.x,p.z):n.ry);g.root.rotation.y=angLerp(g.root.rotation.y,want,1-Math.exp(-dt*(n.turnTo!=null?8:2)));
   animGuy(g,dt,T);}
  for(const s of sils)animGuy(s.g,dt,T);
  if(portG&&$('#dlg').classList.contains('on')&&(portDirty||portG.talkT>0)&&performance.now()-portLast>90)renderPortrait();
@@ -1306,7 +1320,7 @@ $('#yes').onclick=async()=>{ac();SFX.coin();preloadBar();show('load');let k=0;co
  const sv=loadSave();if(sv){show('cont');$('#contGo').onclick=()=>{S=migrate(Object.assign(fresh(),sv));startGame();};$('#contNew').onclick=()=>{mode='creator';show('creator');setupCreator();};}
  else{mode='creator';show('creator');setupCreator();}};
 $('#toLines').onclick=()=>{S.name=($('#cName').value.trim()||'Butch').slice(0,16);S.cash=80;S.room=0;S.owned=['jeans','suspenders','tank'];S.worn=['jeans'];if(S.body.outfit!=='none')S.worn.push(S.body.outfit);SFX.click();startGame();};
-window.__jd={wear:id=>{if(!S.owned.includes(id))S.owned.push(id);wear(id,true);},room:i=>goRoom(i),pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
+window.__jd={wear:id=>{if(!S.owned.includes(id))S.owned.push(id);wear(id,true);},room:i=>goRoom(i),pols:()=>Object.keys(S.album),enc:i=>encounter(npcs[i]),npcs:()=>npcs.map(n=>n.def.id),pos:()=>[player.root.position.x,player.root.position.z],tp:(x,z)=>player.root.position.set(x,0,z),expr:(i,e)=>{setExpr(npcs[i].g,e);showPortrait(npcs[i].g);$('#dlg').classList.add('on');}};
 async function startGame(){if(cg){scene.remove(cg.root);cg=null;}camera.clearViewOffset();resize();preloadBar();
  if(S.room===2&&!BAR&&barP){show(null);$('#fadeLv').textContent='Loading the Ruff Haus…';$('#fadeNm').textContent=ROOMS[2].name;$('#fade').classList.add('on');await Promise.race([barP,sleep(30000)]);}mode='game';show(null);$('#hud').classList.add('on');setCash(S.cash);
  player=null;loadRoom(S.room);updPortrait();save();Music.start();
